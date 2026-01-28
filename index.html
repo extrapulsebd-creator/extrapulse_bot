@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Extra Pulse</title>
+    <title>Extra Pulse Elite</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,26 +15,309 @@
 
     <style>
         :root {
-            --bg: #04070d;
-            --card: rgba(255, 255, 255, 0.05);
-            --accent: #6366f1;
-            --border: rgba(255, 255, 255, 0.1);
-            --text: #f8fafc;
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --bg-grad: linear-gradient(135deg, #fdfcfb 0%, #e2d1f9 100%);
+            --glass: rgba(255, 255, 255, 0.7);
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            --text-dark: #1e293b;
+            --text-light: #64748b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
         
         body { 
-            background: var(--bg); 
-            color: var(--text); 
+            background: var(--bg-grad); 
+            color: var(--text-dark); 
             height: 100vh; 
-            width: 100vw;
             overflow: hidden; 
             display: flex; 
             flex-direction: column; 
         }
 
-        /* --- Header Fix --- */
+        /* --- Header --- */
+        .app-header { 
+            padding: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            z-index: 1000;
+        }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        .avatar { 
+            width: 45px; height: 45px; border-radius: 15px; 
+            background: linear-gradient(45deg, var(--primary), var(--secondary)); 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 800; color: #fff; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+        .bal-chip { 
+            background: #fff; padding: 10px 15px; border-radius: 20px; 
+            box-shadow: var(--card-shadow); border: 1px solid rgba(255,255,255,0.8);
+            color: #f59e0b; font-weight: 800; display: flex; align-items: center; gap: 8px;
+        }
+
+        /* --- Scrolling Ticker --- */
+        .ticker-bar { background: #6366f1; color: #fff; font-size: 11px; padding: 6px 0; overflow: hidden; font-weight: 600; }
+        .ticker-content { display: inline-block; white-space: nowrap; animation: moveText 15s linear infinite; }
+        @keyframes moveText { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+
+        /* --- Viewport --- */
+        #view-container { flex: 1; overflow-y: auto; padding: 25px 20px 140px; }
+        .tab-view { display: none; }
+        .tab-view.active { display: block; animation: zoomFade 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes zoomFade { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* --- Stylish Components --- */
+        .glass-card { 
+            background: var(--glass); 
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 25px; 
+            padding: 22px; 
+            margin-bottom: 20px; 
+            box-shadow: var(--card-shadow);
+        }
+        .hero-banner {
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            border-radius: 30px; padding: 25px; color: #fff; margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.25);
+        }
+
+        /* --- Buttons --- */
+        .btn-fancy {
+            background: #fff; color: #6366f1; border: none; border-radius: 18px;
+            padding: 16px; width: 100%; font-weight: 800; font-size: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s;
+        }
+        .btn-fancy:active { transform: scale(0.95); }
+        .btn-action {
+            background: linear-gradient(90deg, #6366f1, #ec4899);
+            color: #fff; margin-top: 15px; border: none; border-radius: 18px; padding: 15px;
+            font-weight: 800; width: 100%; box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        /* --- Task Cards --- */
+        .mission-box {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px; background: rgba(255,255,255,0.5); border-radius: 20px;
+            margin-top: 12px; border: 1px solid #fff;
+        }
+
+        /* --- Bottom Navigation (Floating) --- */
+        .nav-island {
+            position: fixed; bottom: 25px; left: 20px; right: 20px;
+            background: #fff; border-radius: 25px; display: flex; padding: 12px 10px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); z-index: 1000;
+        }
+        .nav-link { 
+            flex: 1; text-decoration: none; color: #94a3b8; 
+            display: flex; flex-direction: column; align-items: center; gap: 5px; font-weight: 700; font-size: 10px;
+        }
+        .nav-link.active { color: #6366f1; }
+        .nav-link i { font-size: 22px; }
+
+        /* Level Bar */
+        .xp-container { margin-top: 20px; }
+        .xp-track { height: 10px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 8px; }
+        .xp-fill { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); width: 0%; transition: 1s; }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="user-profile">
+            <div class="avatar" id="h-icon">?</div>
+            <div>
+                <div style="font-size: 10px; color: var(--text-light); font-weight: 800;">ELITE MEMBER</div>
+                <div id="h-name" style="font-weight: 800; font-size: 16px;">User</div>
+            </div>
+        </div>
+        <div class="bal-chip">
+            <i class="fas fa-coins"></i> <span id="h-bal">0</span> EP
+        </div>
+    </header>
+
+    <div class="ticker-bar">
+        <div class="ticker-content">🚀 CONGRATS! ID 9942 Just Withdrew 500 BDT 🚀 New Bonus: Invite 5 Friends for 200 EP 🚀</div>
+    </div>
+
+    <main id="view-container">
+        <div id="home" class="tab-view active">
+            <div class="hero-banner">
+                <h2 style="font-weight: 800; margin-bottom: 5px;">Daily Bonus</h2>
+                <p id="claim-desc" style="font-size: 13px; opacity: 0.9; margin-bottom: 20px;">Open your gift box every 24 hours!</p>
+                <button class="btn-fancy" id="claim-btn" onclick="collectBonus()">CLAIM GIFT +25 EP</button>
+            </div>
+
+            <h4 style="margin-left: 5px; color: var(--text-light);">Hot Tasks</h4>
+            <div class="glass-card">
+                <div class="mission-box">
+                    <div><div style="font-weight:800;">Watch Ad Video</div><div style="font-size:11px; color:#10b981;">+10 EP Reward</div></div>
+                    <button class="btn-fancy" style="width:auto; padding:8px 20px; background:#6366f1; color:#fff;" onclick="playAd(10)">WATCH</button>
+                </div>
+                <div class="mission-box">
+                    <div><div style="font-weight:800;">Premium Ad</div><div style="font-size:11px; color:#10b981;">+15 EP Reward</div></div>
+                    <button class="btn-fancy" style="width:auto; padding:8px 20px; background:#6366f1; color:#fff;" onclick="playAd(15)">WATCH</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="play" class="tab-view">
+            <div class="glass-card" style="text-align:center;">
+                <h3 style="margin-bottom:10px;">Lucky Wheel</h3>
+                <div id="wheel" style="width:170px; height:170px; border:8px solid #fff; border-radius:50%; margin:20px auto; background: conic-gradient(#6366f1 0deg 90deg, #ec4899 90deg 180deg, #6366f1 180deg 270deg, #ec4899 270deg 360deg); transition: 4s cubic-bezier(0.1, 0, 0.1, 1); box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></div>
+                <button class="btn-action" id="spin-btn" onclick="startSpin()">SPIN & WIN</button>
+            </div>
+        </div>
+
+        <div id="wallet" class="tab-view">
+            <h3 style="margin: 0 0 15px 5px;">Withdrawal Center</h3>
+            <div class="glass-card">
+                <input type="number" id="w-amt" style="width:100%; padding:15px; border-radius:15px; border:1px solid #ddd; margin-bottom:12px; outline:none;" placeholder="EP Amount (Min 1000)">
+                <input type="text" id="w-info" style="width:100%; padding:15px; border-radius:15px; border:1px solid #ddd; margin-bottom:20px; outline:none;" placeholder="Nagad/Bkash Number">
+                <button class="btn-action" style="background: #10b981;" onclick="payout()">CASH OUT NOW</button>
+            </div>
+        </div>
+
+        <div id="profile" class="tab-view">
+            <div class="glass-card" style="text-align:center;">
+                <div class="avatar" id="p-icon" style="width:80px; height:80px; margin:0 auto 15px; font-size:28px;">?</div>
+                <h2 id="p-user">User</h2>
+                <div class="xp-container" style="text-align:left;">
+                    <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800;">
+                        <span>Level <span id="p-lvl">1</span></span>
+                        <span id="p-xp">0/100 XP</span>
+                    </div>
+                    <div class="xp-track"><div id="p-bar" class="xp-fill"></div></div>
+                </div>
+            </div>
+            <div class="glass-card" id="lb-box" style="padding:15px;">Loading Ranking...</div>
+        </div>
+
+        <div id="refer" class="tab-view">
+            <div class="glass-card" style="text-align:center; padding:40px 20px;">
+                <div style="font-size:60px; margin-bottom:20px;">🎁</div>
+                <h2>Invite Program</h2>
+                <p style="color:var(--text-light); margin-bottom:30px;">Copy your link and share with friends to earn bonus EP!</p>
+                <button class="btn-action" onclick="copyRef()">INVITE NOW</button>
+            </div>
+        </div>
+        <div id="tg" class="tab-view">
+            <div class="glass-card" style="text-align:center; padding:40px 20px;">
+                <i class="fab fa-telegram fa-5x" style="color:#229ED9; margin-bottom:20px;"></i>
+                <h2>Community</h2>
+                <button class="btn-action" style="background:#229ED9;" onclick="tg.openTelegramLink('https://t.me/yourlink')">JOIN TELEGRAM</button>
+            </div>
+        </div>
+    </main>
+
+    <nav class="nav-island">
+        <a href="javascript:void(0)" class="nav-link active" onclick="showTab('home', this)"><i class="fas fa-home"></i>Home</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('play', this)"><i class="fas fa-gamepad"></i>Play</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('tg', this)"><i class="fas fa-bullhorn"></i>TG</a>
+        <a href="javascript:void(0)" class="nav-link nav-ref" onclick="showTab('refer', this)"><i class="fas fa-user-plus"></i>Refer</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('wallet', this)"><i class="fas fa-wallet"></i>Wallet</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('profile', this)"><i class="fas fa-user-circle"></i>User</a>
+    </nav>
+
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyAuS8RpixezmpBpIlB0YQURpG6s-0LEvKM", authDomain: "extra-pulse.firebaseapp.com", databaseURL: "https://extra-pulse-default-rtdb.firebaseio.com", projectId: "extra-pulse", appId: "1:300110920993:web:9c36ebccbd38df27815260" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        const uid = tg.initDataUnsafe.user?.id || "9988";
+        const fname = tg.initDataUnsafe.user?.first_name || "Guest";
+        let user = {};
+
+        function load() {
+            db.ref('users/' + uid).on('value', s => {
+                user = s.val() || { balance: 0, xp: 0, lastBonus: 0, lastSpin: 0, name: fname };
+                update();
+            });
+            loadLB();
+        }
+
+        function update() {
+            document.getElementById('h-bal').innerText = user.balance;
+            document.getElementById('h-name').innerText = fname;
+            document.getElementById('p-user').innerText = fname;
+            document.getElementById('h-icon').innerText = fname[0];
+            document.getElementById('p-icon').innerText = fname[0];
+
+            const lvl = Math.floor(user.xp / 100) + 1;
+            const prog = user.xp % 100;
+            document.getElementById('p-lvl').innerText = lvl;
+            document.getElementById('p-xp').innerText = prog + "/100 XP";
+            document.getElementById('p-bar').style.width = prog + "%";
+
+            const d = Date.now() - (user.lastBonus || 0);
+            document.getElementById('claim-btn').disabled = d < 86400000;
+            if(d < 86400000) document.getElementById('claim-desc').innerText = "Come back in " + Math.ceil((86400000-d)/3600000) + " hours";
+
+            document.getElementById('spin-btn').disabled = (Date.now() - (user.lastSpin || 0)) < 7200000;
+        }
+
+        function collectBonus() {
+            db.ref('users/' + uid).transaction(c => {
+                if(c) { c.balance += 25; c.xp += 20; c.lastBonus = Date.now(); }
+                return c;
+            });
+            tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        function playAd(amt) {
+            if(typeof show_10527731 === 'function') {
+                show_10527731().then(() => {
+                    db.ref('users/' + uid).transaction(c => {
+                        if(c) { c.balance += amt; c.xp += 5; }
+                        return c;
+                    });
+                    tg.showAlert("+"+amt+" EP Added!");
+                });
+            } else tg.showAlert("Ad server busy.");
+        }
+
+        function startSpin() {
+            const w = document.getElementById('wheel');
+            const deg = Math.floor(3600 + Math.random() * 3600);
+            w.style.transform = `rotate(${deg}deg)`;
+            setTimeout(() => {
+                const prize = [5, 10, 25][Math.floor(Math.random()*3)];
+                db.ref('users/' + uid).update({ balance: user.balance + prize, xp: user.xp + 5, lastSpin: Date.now() });
+                tg.showAlert("Congrats! You won "+prize+" EP");
+            }, 4000);
+        }
+
+        function showTab(id, el) {
+            document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        function loadLB() {
+            db.ref('users').orderByChild('balance').limitToLast(5).on('value', s => {
+                let h = '<h4 style="margin-bottom:10px;">Top Earners</h4>';
+                s.forEach(c => { h += `<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #eee;font-size:13px;"><span>${c.val().name}</span><b>${c.val().balance} EP</b></div>`; });
+                document.getElementById('lb-box').innerHTML = h;
+            });
+        }
+
+        function copyRef() {
+            const link = `https://t.me/extrapulse_bot/app?startapp=${uid}`;
+            tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=Join Extra Pulse!`);
+        }
+
+        window.onload = load;
+    </script>
+</body>
+</html>        /* --- Header Fix --- */
         .app-header { 
             padding: 15px 20px; 
             display: flex; 
