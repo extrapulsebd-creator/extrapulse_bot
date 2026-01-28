@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Extra Pulse Elite</title>
+    <title>Extra Pulse Elite - Master</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,209 +18,156 @@
             --primary: #6366f1;
             --secondary: #ec4899;
             --bg-grad: linear-gradient(135deg, #fdfcfb 0%, #e2d1f9 100%);
-            --glass: rgba(255, 255, 255, 0.7);
-            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-            --text-dark: #1e293b;
-            --text-light: #64748b;
+            --glass: rgba(255, 255, 255, 0.75);
+            --text-main: #1e293b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
+        body { background: var(--bg-grad); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+        /* Header & Ticker */
+        .app-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: var(--glass); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.4); z-index: 1000; }
+        .user-box { display: flex; align-items: center; gap: 12px; }
+        .avatar { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(45deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; box-shadow: 0 4px 12px rgba(99,102,241,0.2); }
+        .bal-chip { background: #fff; padding: 8px 14px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #f59e0b; font-weight: 800; font-size: 14px; border: 1px solid #fff; }
+
+        .ticker { background: var(--primary); color: #fff; font-size: 11px; padding: 5px 0; overflow: hidden; font-weight: 600; }
+        .ticker-move { display: inline-block; white-space: nowrap; animation: move 18s linear infinite; }
+        @keyframes move { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+
+        /* Layout */
+        #content { flex: 1; overflow-y: auto; padding: 20px 20px 140px; }
+        .tab { display: none; }
+        .tab.active { display: block; animation: fadeInUp 0.4s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* UI Elements */
+        .glass-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(31,38,135,0.05); }
+        .hero { background: linear-gradient(45deg, #6366f1, #a855f7); border-radius: 28px; padding: 25px; color: #fff; margin-bottom: 25px; box-shadow: 0 10px 25px rgba(99,102,241,0.2); }
         
-        body { 
-            background: var(--bg-grad); 
-            color: var(--text-dark); 
-            height: 100vh; 
-            overflow: hidden; 
-            display: flex; 
-            flex-direction: column; 
-        }
+        .btn-main { background: #fff; color: #6366f1; border: none; border-radius: 16px; padding: 15px; width: 100%; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-main:active { transform: scale(0.96); }
+        .btn-grad { background: linear-gradient(90deg, #6366f1, #ec4899); color: #fff; margin-top: 15px; }
 
-        /* --- Header --- */
-        .app-header { 
-            padding: 20px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.3);
-            z-index: 1000;
-        }
-        .user-profile { display: flex; align-items: center; gap: 12px; }
-        .avatar { 
-            width: 45px; height: 45px; border-radius: 15px; 
-            background: linear-gradient(45deg, var(--primary), var(--secondary)); 
-            display: flex; align-items: center; justify-content: center; 
-            font-weight: 800; color: #fff; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
-        }
-        .bal-chip { 
-            background: #fff; padding: 10px 15px; border-radius: 20px; 
-            box-shadow: var(--card-shadow); border: 1px solid rgba(255,255,255,0.8);
-            color: #f59e0b; font-weight: 800; display: flex; align-items: center; gap: 8px;
-        }
+        .input-field { width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #ddd; margin-bottom: 12px; outline: none; background: rgba(255,255,255,0.5); }
 
-        /* --- Scrolling Ticker --- */
-        .ticker-bar { background: #6366f1; color: #fff; font-size: 11px; padding: 6px 0; overflow: hidden; font-weight: 600; }
-        .ticker-content { display: inline-block; white-space: nowrap; animation: moveText 15s linear infinite; }
-        @keyframes moveText { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        /* History Items */
+        .history-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 12px; }
+        .status-paid { color: #10b981; font-weight: 700; }
+        .status-pending { color: #f59e0b; font-weight: 700; }
 
-        /* --- Viewport --- */
-        #view-container { flex: 1; overflow-y: auto; padding: 25px 20px 140px; }
-        .tab-view { display: none; }
-        .tab-view.active { display: block; animation: zoomFade 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes zoomFade { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* Navigation */
+        .nav-bar { position: fixed; bottom: 25px; left: 20px; right: 20px; background: #fff; border-radius: 25px; display: flex; padding: 12px 5px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { flex: 1; text-decoration: none; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 4px; font-weight: 700; font-size: 10px; }
+        .nav-item.active { color: #6366f1; }
+        .nav-item i { font-size: 20px; }
 
-        /* --- Stylish Components --- */
-        .glass-card { 
-            background: var(--glass); 
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.5);
-            border-radius: 25px; 
-            padding: 22px; 
-            margin-bottom: 20px; 
-            box-shadow: var(--card-shadow);
-        }
-        .hero-banner {
-            background: linear-gradient(45deg, #6366f1, #8b5cf6);
-            border-radius: 30px; padding: 25px; color: #fff; margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.25);
-        }
-
-        /* --- Buttons --- */
-        .btn-fancy {
-            background: #fff; color: #6366f1; border: none; border-radius: 18px;
-            padding: 16px; width: 100%; font-weight: 800; font-size: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s;
-        }
-        .btn-fancy:active { transform: scale(0.95); }
-        .btn-action {
-            background: linear-gradient(90deg, #6366f1, #ec4899);
-            color: #fff; margin-top: 15px; border: none; border-radius: 18px; padding: 15px;
-            font-weight: 800; width: 100%; box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
-        }
-
-        /* --- Task Cards --- */
-        .mission-box {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 15px; background: rgba(255,255,255,0.5); border-radius: 20px;
-            margin-top: 12px; border: 1px solid #fff;
-        }
-
-        /* --- Bottom Navigation (Floating) --- */
-        .nav-island {
-            position: fixed; bottom: 25px; left: 20px; right: 20px;
-            background: #fff; border-radius: 25px; display: flex; padding: 12px 10px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1); z-index: 1000;
-        }
-        .nav-link { 
-            flex: 1; text-decoration: none; color: #94a3b8; 
-            display: flex; flex-direction: column; align-items: center; gap: 5px; font-weight: 700; font-size: 10px;
-        }
-        .nav-link.active { color: #6366f1; }
-        .nav-link i { font-size: 22px; }
-
-        /* Level Bar */
-        .xp-container { margin-top: 20px; }
-        .xp-track { height: 10px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 8px; }
-        .xp-fill { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); width: 0%; transition: 1s; }
+        /* XP Bar */
+        .xp-wrap { margin-top: 15px; }
+        .xp-bg { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 6px; }
+        .xp-fill { height: 100%; background: #10b981; width: 0%; transition: 1s; }
     </style>
 </head>
 <body>
 
     <header class="app-header">
-        <div class="user-profile">
-            <div class="avatar" id="h-icon">?</div>
+        <div class="user-box">
+            <div class="avatar" id="h-avatar">?</div>
             <div>
-                <div style="font-size: 10px; color: var(--text-light); font-weight: 800;">ELITE MEMBER</div>
-                <div id="h-name" style="font-weight: 800; font-size: 16px;">User</div>
+                <div style="font-size: 10px; color: #64748b; font-weight: 800;">ELITE</div>
+                <div id="h-name" style="font-weight: 800; font-size: 15px;">User</div>
             </div>
         </div>
-        <div class="bal-chip">
-            <i class="fas fa-coins"></i> <span id="h-bal">0</span> EP
-        </div>
+        <div class="bal-chip"><i class="fas fa-coins"></i> <span id="h-bal">0</span> EP</div>
     </header>
 
-    <div class="ticker-bar">
-        <div class="ticker-content">🚀 CONGRATS! ID 9942 Just Withdrew 500 BDT 🚀 New Bonus: Invite 5 Friends for 200 EP 🚀</div>
+    <div class="ticker">
+        <div class="ticker-move" id="news-text">🚀 Welcome to Extra Pulse! Join Telegram for Daily Giveaways and Payment Proofs! 🚀</div>
     </div>
 
-    <main id="view-container">
-        <div id="home" class="tab-view active">
-            <div class="hero-banner">
-                <h2 style="font-weight: 800; margin-bottom: 5px;">Daily Bonus</h2>
-                <p id="claim-desc" style="font-size: 13px; opacity: 0.9; margin-bottom: 20px;">Open your gift box every 24 hours!</p>
-                <button class="btn-fancy" id="claim-btn" onclick="collectBonus()">CLAIM GIFT +25 EP</button>
+    <main id="content">
+        <div id="home" class="tab active">
+            <div class="hero">
+                <h2 style="font-weight: 800;">Daily Gift</h2>
+                <p id="bonus-info" style="font-size: 13px; margin: 5px 0 20px; opacity: 0.9;">Claim your 25 EP bonus!</p>
+                <button class="btn-main" id="claim-btn" onclick="handleClaim()">COLLECT NOW</button>
             </div>
 
-            <h4 style="margin-left: 5px; color: var(--text-light);">Hot Tasks</h4>
+            <h4 style="margin: 0 0 12px 5px;">Easy Tasks</h4>
             <div class="glass-card">
-                <div class="mission-box">
-                    <div><div style="font-weight:800;">Watch Ad Video</div><div style="font-size:11px; color:#10b981;">+10 EP Reward</div></div>
-                    <button class="btn-fancy" style="width:auto; padding:8px 20px; background:#6366f1; color:#fff;" onclick="playAd(10)">WATCH</button>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div><div style="font-weight:800;">Watch Ad</div><div style="font-size:11px; color:#10b981;">+10 EP Reward</div></div>
+                    <button class="btn-main" style="width:auto; padding:8px 18px; background:var(--primary); color:#fff;" onclick="watchAd(10)">PLAY</button>
                 </div>
-                <div class="mission-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px;">
                     <div><div style="font-weight:800;">Premium Ad</div><div style="font-size:11px; color:#10b981;">+15 EP Reward</div></div>
-                    <button class="btn-fancy" style="width:auto; padding:8px 20px; background:#6366f1; color:#fff;" onclick="playAd(15)">WATCH</button>
+                    <button class="btn-main" style="width:auto; padding:8px 18px; background:var(--primary); color:#fff;" onclick="watchAd(15)">PLAY</button>
                 </div>
             </div>
         </div>
 
-        <div id="play" class="tab-view">
+        <div id="play" class="tab">
             <div class="glass-card" style="text-align:center;">
-                <h3 style="margin-bottom:10px;">Lucky Wheel</h3>
-                <div id="wheel" style="width:170px; height:170px; border:8px solid #fff; border-radius:50%; margin:20px auto; background: conic-gradient(#6366f1 0deg 90deg, #ec4899 90deg 180deg, #6366f1 180deg 270deg, #ec4899 270deg 360deg); transition: 4s cubic-bezier(0.1, 0, 0.1, 1); box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></div>
-                <button class="btn-action" id="spin-btn" onclick="startSpin()">SPIN & WIN</button>
+                <h3>Lucky Wheel</h3>
+                <div id="wheel" style="width:160px; height:160px; border:6px solid #fff; border-radius:50%; margin:20px auto; background: conic-gradient(var(--primary) 0 90deg, #eee 90deg 180deg, var(--primary) 180deg 270deg, #eee 270deg 360deg); transition: 4s cubic-bezier(0.1, 0, 0.1, 1);"></div>
+                <button class="btn-grad" id="spin-btn" style="border:none; border-radius:15px; padding:15px; width:100%; font-weight:800;" onclick="handleSpin()">SPIN WHEEL</button>
             </div>
         </div>
 
-        <div id="wallet" class="tab-view">
-            <h3 style="margin: 0 0 15px 5px;">Withdrawal Center</h3>
+        <div id="wallet" class="tab">
+            <h3>Withdrawal</h3>
             <div class="glass-card">
-                <input type="number" id="w-amt" style="width:100%; padding:15px; border-radius:15px; border:1px solid #ddd; margin-bottom:12px; outline:none;" placeholder="EP Amount (Min 1000)">
-                <input type="text" id="w-info" style="width:100%; padding:15px; border-radius:15px; border:1px solid #ddd; margin-bottom:20px; outline:none;" placeholder="Nagad/Bkash Number">
-                <button class="btn-action" style="background: #10b981;" onclick="payout()">CASH OUT NOW</button>
+                <input type="number" id="w-amt" class="input-field" placeholder="Amount (Min 1000)">
+                <input type="text" id="w-method" class="input-field" placeholder="Nagad/Bkash Number">
+                <button class="btn-grad" style="border:none; border-radius:15px; padding:15px; width:100%; font-weight:800;" onclick="handleWithdraw()">SUBMIT REQUEST</button>
             </div>
+            
+            <h4 style="margin: 15px 0 10px 5px;">My History</h4>
+            <div class="glass-card" id="history-list" style="font-size:13px; color:#64748b;">No records found.</div>
         </div>
 
-        <div id="profile" class="tab-view">
+        <div id="profile" class="tab">
             <div class="glass-card" style="text-align:center;">
-                <div class="avatar" id="p-icon" style="width:80px; height:80px; margin:0 auto 15px; font-size:28px;">?</div>
-                <h2 id="p-user">User</h2>
-                <div class="xp-container" style="text-align:left;">
-                    <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800;">
-                        <span>Level <span id="p-lvl">1</span></span>
-                        <span id="p-xp">0/100 XP</span>
-                    </div>
-                    <div class="xp-track"><div id="p-bar" class="xp-fill"></div></div>
+                <div class="avatar" id="p-avatar" style="width:75px; height:75px; margin:0 auto 10px; font-size:26px;">?</div>
+                <h2 id="p-name">User</h2>
+                <div class="xp-wrap" style="text-align:left;">
+                    <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800;"><span>LEVEL <span id="p-lvl">1</span></span><span id="p-xp">0/100 XP</span></div>
+                    <div class="xp-bg"><div id="p-bar" class="xp-fill"></div></div>
                 </div>
             </div>
-            <div class="glass-card" id="lb-box" style="padding:15px;">Loading Ranking...</div>
-        </div>
 
-        <div id="refer" class="tab-view">
-            <div class="glass-card" style="text-align:center; padding:40px 20px;">
-                <div style="font-size:60px; margin-bottom:20px;">🎁</div>
-                <h2>Invite Program</h2>
-                <p style="color:var(--text-light); margin-bottom:30px;">Copy your link and share with friends to earn bonus EP!</p>
-                <button class="btn-action" onclick="copyRef()">INVITE NOW</button>
+            <h4>Redeem Promo Code</h4>
+            <div class="glass-card">
+                <input type="text" id="promo-input" class="input-field" style="margin-bottom:10px;" placeholder="Enter Code">
+                <button class="btn-main" style="background:var(--primary); color:#fff;" onclick="handlePromo()">APPLY CODE</button>
             </div>
         </div>
-        <div id="tg" class="tab-view">
+
+        <div id="refer" class="tab">
+            <div class="glass-card" style="text-align:center; padding:40px 20px;">
+                <i class="fas fa-gift fa-5x" style="color:var(--secondary); margin-bottom:20px;"></i>
+                <h2>Invite Program</h2>
+                <p style="font-size:13px; color:#64748b; margin-bottom:25px;">Earn 50 EP for every friend you invite to Extra Pulse!</p>
+                <button class="btn-grad" style="border:none; border-radius:15px; padding:15px; width:100%; font-weight:800;" onclick="handleShare()">SHARE LINK</button>
+            </div>
+        </div>
+
+        <div id="tg" class="tab">
             <div class="glass-card" style="text-align:center; padding:40px 20px;">
                 <i class="fab fa-telegram fa-5x" style="color:#229ED9; margin-bottom:20px;"></i>
                 <h2>Community</h2>
-                <button class="btn-action" style="background:#229ED9;" onclick="tg.openTelegramLink('https://t.me/yourlink')">JOIN TELEGRAM</button>
+                <button class="btn-main" style="background:#229ED9; color:#fff;" onclick="tg.openTelegramLink('https://t.me/yourlink')">JOIN CHANNEL</button>
             </div>
         </div>
     </main>
 
-    <nav class="nav-island">
-        <a href="javascript:void(0)" class="nav-link active" onclick="showTab('home', this)"><i class="fas fa-home"></i>Home</a>
-        <a href="javascript:void(0)" class="nav-link" onclick="showTab('play', this)"><i class="fas fa-gamepad"></i>Play</a>
-        <a href="javascript:void(0)" class="nav-link" onclick="showTab('tg', this)"><i class="fas fa-bullhorn"></i>TG</a>
-        <a href="javascript:void(0)" class="nav-link nav-ref" onclick="showTab('refer', this)"><i class="fas fa-user-plus"></i>Refer</a>
-        <a href="javascript:void(0)" class="nav-link" onclick="showTab('wallet', this)"><i class="fas fa-wallet"></i>Wallet</a>
-        <a href="javascript:void(0)" class="nav-link" onclick="showTab('profile', this)"><i class="fas fa-user-circle"></i>User</a>
+    <nav class="nav-bar">
+        <a href="javascript:void(0)" class="nav-item active" onclick="switchTab('home', this)"><i class="fas fa-house"></i>Home</a>
+        <a href="javascript:void(0)" class="nav-item" onclick="switchTab('play', this)"><i class="fas fa-gamepad"></i>Play</a>
+        <a href="javascript:void(0)" class="nav-item" onclick="switchTab('tg', this)"><i class="fas fa-bullhorn"></i>TG</a>
+        <a href="javascript:void(0)" class="nav-item nav-ref" onclick="switchTab('refer', this)"><i class="fas fa-user-plus"></i>Ref</a>
+        <a href="javascript:void(0)" class="nav-item" onclick="switchTab('wallet', this)"><i class="fas fa-wallet"></i>Wallet</a>
+        <a href="javascript:void(0)" class="nav-item" onclick="switchTab('profile', this)"><i class="fas fa-user-circle"></i>User</a>
     </nav>
 
     <script>
@@ -230,296 +177,119 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        const uid = tg.initDataUnsafe.user?.id || "9988";
-        const fname = tg.initDataUnsafe.user?.first_name || "Guest";
-        let user = {};
+        const uid = tg.initDataUnsafe.user?.id || "9900";
+        const fname = tg.initDataUnsafe.user?.first_name || "User";
+        let uData = {};
 
-        function load() {
+        function init() {
             db.ref('users/' + uid).on('value', s => {
-                user = s.val() || { balance: 0, xp: 0, lastBonus: 0, lastSpin: 0, name: fname };
-                update();
+                uData = s.val() || { balance: 0, xp: 0, lastBonus: 0, lastSpin: 0, name: fname };
+                render();
             });
-            loadLB();
+            // Admin News
+            db.ref('admin/news').on('value', s => { if(s.val()) document.getElementById('news-text').innerText = s.val(); });
+            loadHistory();
         }
 
-        function update() {
-            document.getElementById('h-bal').innerText = user.balance;
+        function render() {
+            document.getElementById('h-bal').innerText = uData.balance;
             document.getElementById('h-name').innerText = fname;
-            document.getElementById('p-user').innerText = fname;
-            document.getElementById('h-icon').innerText = fname[0];
-            document.getElementById('p-icon').innerText = fname[0];
+            document.getElementById('p-name').innerText = fname;
+            document.getElementById('h-avatar').innerText = fname[0];
+            document.getElementById('p-avatar').innerText = fname[0];
 
-            const lvl = Math.floor(user.xp / 100) + 1;
-            const prog = user.xp % 100;
+            const lvl = Math.floor(uData.xp / 100) + 1;
+            const prg = uData.xp % 100;
             document.getElementById('p-lvl').innerText = lvl;
-            document.getElementById('p-xp').innerText = prog + "/100 XP";
-            document.getElementById('p-bar').style.width = prog + "%";
+            document.getElementById('p-xp').innerText = prg + "/100 XP";
+            document.getElementById('p-bar').style.width = prg + "%";
 
-            const d = Date.now() - (user.lastBonus || 0);
-            document.getElementById('claim-btn').disabled = d < 86400000;
-            if(d < 86400000) document.getElementById('claim-desc').innerText = "Come back in " + Math.ceil((86400000-d)/3600000) + " hours";
-
-            document.getElementById('spin-btn').disabled = (Date.now() - (user.lastSpin || 0)) < 7200000;
+            const diff = Date.now() - (uData.lastBonus || 0);
+            document.getElementById('claim-btn').disabled = diff < 86400000;
+            if(diff < 86400000) document.getElementById('bonus-info').innerText = "Claim again in " + Math.ceil((86400000-diff)/3600000) + "h";
+            
+            document.getElementById('spin-btn').disabled = (Date.now() - (uData.lastSpin || 0)) < 7200000;
         }
 
-        function collectBonus() {
+        function handleClaim() {
             db.ref('users/' + uid).transaction(c => {
-                if(c) { c.balance += 25; c.xp += 20; c.lastBonus = Date.now(); }
+                if(c) { c.balance += 25; c.xp += 15; c.lastBonus = Date.now(); }
                 return c;
             });
             tg.HapticFeedback.notificationOccurred('success');
         }
 
-        function playAd(amt) {
+        function watchAd(amt) {
             if(typeof show_10527731 === 'function') {
                 show_10527731().then(() => {
-                    db.ref('users/' + uid).transaction(c => {
-                        if(c) { c.balance += amt; c.xp += 5; }
-                        return c;
-                    });
+                    db.ref('users/' + uid).transaction(c => { if(c) { c.balance += amt; c.xp += 5; } return c; });
                     tg.showAlert("+"+amt+" EP Added!");
                 });
-            } else tg.showAlert("Ad server busy.");
+            } else tg.showAlert("Ad not ready.");
         }
 
-        function startSpin() {
+        function handleSpin() {
             const w = document.getElementById('wheel');
             const deg = Math.floor(3600 + Math.random() * 3600);
             w.style.transform = `rotate(${deg}deg)`;
             setTimeout(() => {
-                const prize = [5, 10, 25][Math.floor(Math.random()*3)];
-                db.ref('users/' + uid).update({ balance: user.balance + prize, xp: user.xp + 5, lastSpin: Date.now() });
-                tg.showAlert("Congrats! You won "+prize+" EP");
+                const win = [5, 10, 20, 50][Math.floor(Math.random()*4)];
+                db.ref('users/' + uid).update({ balance: uData.balance + win, xp: uData.xp + 5, lastSpin: Date.now() });
+                tg.showAlert("Winner! You got " + win + " EP");
             }, 4000);
         }
 
-        function showTab(id, el) {
-            document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+        function handleWithdraw() {
+            const amt = document.getElementById('w-amt').value;
+            const method = document.getElementById('w-method').value;
+            if(amt < 1000 || !method) return tg.showAlert("Min 1000 EP & Number required!");
+            if(uData.balance < amt) return tg.showAlert("Insufficient balance!");
+
+            const reqId = Date.now();
+            db.ref('payouts/' + uid + '/' + reqId).set({ amount: amt, method: method, status: 'pending', date: new Date().toLocaleDateString() });
+            db.ref('users/' + uid).update({ balance: uData.balance - amt });
+            tg.showAlert("Request Submitted!");
+        }
+
+        function loadHistory() {
+            db.ref('payouts/' + uid).limitToLast(5).on('value', s => {
+                let html = '';
+                s.forEach(p => {
+                    const d = p.val();
+                    html = `<div class="history-item"><span>${d.date} - ${d.amount}EP</span><span class="status-${d.status}">${d.status.toUpperCase()}</span></div>` + html;
+                });
+                if(html) document.getElementById('history-list').innerHTML = html;
+            });
+        }
+
+        function handlePromo() {
+            const code = document.getElementById('promo-input').value;
+            db.ref('admin/promos/' + code).once('value', s => {
+                if(s.exists()) {
+                    db.ref('users/' + uid + '/promos/' + code).once('value', used => {
+                        if(used.exists()) return tg.showAlert("Already used!");
+                        db.ref('users/' + uid).transaction(c => { if(c) c.balance += s.val(); return c; });
+                        db.ref('users/' + uid + '/promos/' + code).set(true);
+                        tg.showAlert("Promo Applied! +" + s.val() + " EP");
+                    });
+                } else tg.showAlert("Invalid Code!");
+            });
+        }
+
+        function switchTab(id, el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             el.classList.add('active');
             tg.HapticFeedback.impactOccurred('medium');
         }
 
-        function loadLB() {
-            db.ref('users').orderByChild('balance').limitToLast(5).on('value', s => {
-                let h = '<h4 style="margin-bottom:10px;">Top Earners</h4>';
-                s.forEach(c => { h += `<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #eee;font-size:13px;"><span>${c.val().name}</span><b>${c.val().balance} EP</b></div>`; });
-                document.getElementById('lb-box').innerHTML = h;
-            });
-        }
-
-        function copyRef() {
+        function handleShare() {
             const link = `https://t.me/extrapulse_bot/app?startapp=${uid}`;
-            tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=Join Extra Pulse!`);
+            tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=Join Extra Pulse and earn!`);
         }
 
-        window.onload = load;
-    </script>
-</body>
-</html>        /* --- Header Fix --- */
-        .app-header { 
-            padding: 15px 20px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            background: rgba(5, 8, 15, 0.9); 
-            backdrop-filter: blur(15px); 
-            border-bottom: 1px solid var(--border); 
-            z-index: 1000; 
-        }
-        .user-pill { display: flex; align-items: center; gap: 10px; }
-        .avatar { 
-            width: 40px; height: 40px; border-radius: 12px; 
-            background: linear-gradient(135deg, var(--accent), #a855f7); 
-            display: flex; align-items: center; justify-content: center; font-weight: 800; 
-        }
-        .balance-box { 
-            background: rgba(251, 191, 36, 0.1); 
-            border: 1px solid rgba(251, 191, 36, 0.2); 
-            padding: 6px 12px; border-radius: 12px; 
-            color: #fbbf24; font-weight: 800; font-size: 14px; 
-        }
-
-        /* --- Scrolling News --- */
-        .news-wrapper { background: rgba(99, 102, 241, 0.1); padding: 4px 0; border-bottom: 1px solid var(--border); overflow: hidden; }
-        .news-content { display: inline-block; white-space: nowrap; animation: scroll 15s linear infinite; font-size: 11px; }
-        @keyframes scroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
-
-        /* --- Main Content Area --- */
-        #content-area { flex: 1; overflow-y: auto; padding: 20px 20px 120px; }
-        .page { display: none; }
-        .page.active { display: block; animation: fadeInUp 0.3s ease; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- Components --- */
-        .glass-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 15px; }
-        .btn-action { background: #fff; color: #000; border: none; border-radius: 12px; padding: 14px; width: 100%; font-weight: 800; cursor: pointer; }
-        .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* --- Navigation --- */
-        .bottom-nav { 
-            position: fixed; bottom: 15px; left: 15px; right: 15px; 
-            background: rgba(16, 20, 32, 0.95); backdrop-filter: blur(20px); 
-            border: 1px solid var(--border); border-radius: 20px; 
-            display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; 
-        }
-        .nav-item { color: #94a3b8; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; flex: 1; }
-        .nav-item.active { color: #fff; }
-        .nav-item.active i { color: var(--accent); }
-    </style>
-</head>
-<body oncontextmenu="return false;">
-
-    <header class="app-header">
-        <div class="user-pill">
-            <div class="avatar" id="user-pfp">?</div>
-            <div>
-                <div style="font-size: 10px; opacity: 0.6;">Level <span id="user-lvl">1</span></div>
-                <div id="user-name" style="font-weight: 800; font-size: 14px;">Loading...</div>
-            </div>
-        </div>
-        <div class="balance-box"><i class="fas fa-coins"></i> <span id="balance-val">0</span> EP</div>
-    </header>
-
-    <div class="news-wrapper">
-        <div class="news-content">🔥 Updates: Withdrawal processing time is now under 12 hours! Refer friends to earn more!</div>
-    </div>
-
-    <main id="content-area">
-        <div id="home" class="page active">
-            <div class="glass-card" style="background: linear-gradient(135deg, var(--accent), #a855f7); border: none;">
-                <h3 style="margin-bottom: 5px;">Daily Bonus</h3>
-                <p id="timer-text" style="font-size: 12px; margin-bottom: 15px;">Claim your daily EP reward!</p>
-                <button class="btn-action" id="claim-btn" onclick="claimDaily()">CLAIM NOW</button>
-            </div>
-        </div>
-
-        <div id="play" class="page">
-            <div class="glass-card" style="text-align: center;">
-                <h4>Lucky Spin</h4>
-                <div id="wheel" style="width: 150px; height: 150px; border: 4px solid var(--border); border-radius: 50%; margin: 15px auto; background: conic-gradient(var(--accent) 0 90deg, #fff 90deg 180deg, var(--accent) 180deg 270deg, #fff 270deg 360deg); transition: 4s cubic-bezier(0.1, 0, 0.1, 1);"></div>
-                <button class="btn-action" id="spin-btn" onclick="runSpin()">SPIN WHEEL</button>
-            </div>
-        </div>
-
-        <div id="wallet" class="page">
-            <h3>Withdraw</h3>
-            <div class="glass-card">
-                <input type="number" id="w-amt" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid var(--border); background:rgba(0,0,0,0.2); color:#fff;" placeholder="Amount (Min 1000)">
-                <input type="text" id="w-num" style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid var(--border); background:rgba(0,0,0,0.2); color:#fff;" placeholder="Bkash/Nagad Number">
-                <button class="btn-action" style="background: #10b981;" onclick="requestPayout()">SUBMIT REQUEST</button>
-            </div>
-        </div>
-
-        <div id="profile" class="page">
-            <div class="glass-card" style="text-align: center;">
-                <div class="avatar" id="p-pfp" style="width: 60px; height: 60px; margin: 0 auto 10px; font-size: 20px;">?</div>
-                <h3 id="p-name">Username</h3>
-                <p id="p-id" style="font-size: 11px; opacity: 0.5; margin-bottom: 15px;">ID: ---</p>
-                <div style="text-align: left; font-size: 12px;">
-                    <div style="display: flex; justify-content: space-between;"><span>XP Progress</span> <span id="xp-val">0/100</span></div>
-                    <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 5px; overflow: hidden;">
-                        <div id="xp-bar" style="height: 100%; background: #10b981; width: 0%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <nav class="bottom-nav">
-        <a href="javascript:void(0)" class="nav-item active" onclick="showTab('home', this)"><i class="fas fa-home"></i>Home</a>
-        <a href="javascript:void(0)" class="nav-item" onclick="showTab('play', this)"><i class="fas fa-gamepad"></i>Play</a>
-        <a href="javascript:void(0)" class="nav-item" onclick="showTab('wallet', this)"><i class="fas fa-wallet"></i>Wallet</a>
-        <a href="javascript:void(0)" class="nav-item" onclick="showTab('profile', this)"><i class="fas fa-user"></i>Profile</a>
-    </nav>
-
-    <script>
-        // 1. Firebase Configuration (Apnar logic thik ache)
-        const firebaseConfig = { 
-            apiKey: "AIzaSyAuS8RpixezmpBpIlB0YQURpG6s-0LEvKM", 
-            authDomain: "extra-pulse.firebaseapp.com", 
-            databaseURL: "https://extra-pulse-default-rtdb.firebaseio.com", 
-            projectId: "extra-pulse", 
-            appId: "1:300110920993:web:9c36ebccbd38df27815260" 
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        // 2. Telegram Integration
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        const user = tg.initDataUnsafe.user;
-        const uid = user?.id || "guest_dev";
-        const fname = user?.first_name || "Guest";
-
-        let localData = {};
-
-        function sync() {
-            db.ref('users/' + uid).on('value', snapshot => {
-                localData = snapshot.val() || { balance: 0, xp: 0, lastBonus: 0, lastSpin: 0 };
-                updateDisplay();
-            });
-        }
-
-        function updateDisplay() {
-            document.getElementById('balance-val').innerText = localData.balance;
-            document.getElementById('user-name').innerText = fname;
-            document.getElementById('p-name').innerText = fname;
-            document.getElementById('user-pfp').innerText = fname[0];
-            document.getElementById('p-pfp').innerText = fname[0];
-            
-            // Level Calculation
-            const lvl = Math.floor(localData.xp / 100) + 1;
-            const progress = localData.xp % 100;
-            document.getElementById('user-lvl').innerText = lvl;
-            document.getElementById('xp-val').innerText = progress + "/100";
-            document.getElementById('xp-bar').style.width = progress + "%";
-
-            // Timer Daily
-            const diff = Date.now() - (localData.lastBonus || 0);
-            const btn = document.getElementById('claim-btn');
-            if(diff < 86400000) {
-                btn.disabled = true;
-                document.getElementById('timer-text').innerText = "Next reward in " + Math.ceil((86400000-diff)/3600000) + " hours";
-            } else {
-                btn.disabled = false;
-                document.getElementById('timer-text').innerText = "Your daily bonus is ready!";
-            }
-        }
-
-        function claimDaily() {
-            db.ref('users/' + uid).transaction(d => {
-                if(d) {
-                    d.balance += 20;
-                    d.xp += 15;
-                    d.lastBonus = Date.now();
-                }
-                return d;
-            });
-            tg.HapticFeedback.notificationOccurred('success');
-        }
-
-        function runSpin() {
-            const wheel = document.getElementById('wheel');
-            const deg = Math.floor(3000 + Math.random() * 3000);
-            wheel.style.transform = `rotate(${deg}deg)`;
-            setTimeout(() => {
-                const win = [5, 10, 20][Math.floor(Math.random()*3)];
-                db.ref('users/' + uid).update({ balance: localData.balance + win, xp: localData.xp + 5, lastSpin: Date.now() });
-                tg.showAlert("Congrats! You won " + win + " EP");
-            }, 4000);
-        }
-
-        function showTab(id, el) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            el.classList.add('active');
-            tg.HapticFeedback.impactOccurred('light');
-        }
-
-        window.onload = sync;
+        window.onload = init;
     </script>
 </body>
 </html>
