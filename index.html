@@ -19,43 +19,102 @@
             --secondary: #ec4899;
             --bg-grad: linear-gradient(135deg, #fdfcfb 0%, #e2d1f9 100%);
             --glass: rgba(255, 255, 255, 0.75);
-            --text-main: #1e293b;
+            --text-dark: #1e293b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
-        body { background: var(--bg-grad); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        
+        body { 
+            background: var(--bg-grad); 
+            color: var(--text-dark); 
+            height: 100vh; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+        }
 
-        .app-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: var(--glass); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.4); z-index: 1000; }
-        .user-box { display: flex; align-items: center; gap: 12px; }
-        .avatar { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(45deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; box-shadow: 0 4px 12px rgba(99,102,241,0.2); }
-        .bal-chip { background: #fff; padding: 8px 14px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #f59e0b; font-weight: 800; font-size: 14px; border: 1px solid #fff; }
+        /* Header UI */
+        .app-header { 
+            padding: 18px 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+            z-index: 1000;
+        }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        .avatar { 
+            width: 44px; height: 44px; border-radius: 14px; 
+            background: linear-gradient(45deg, var(--primary), var(--secondary)); 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 800; color: #fff; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+        .bal-chip { 
+            background: #fff; padding: 8px 14px; border-radius: 18px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            color: #f59e0b; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 6px;
+        }
 
-        .ticker { background: var(--primary); color: #fff; font-size: 11px; padding: 5px 0; overflow: hidden; font-weight: 600; }
-        .ticker-move { display: inline-block; white-space: nowrap; animation: move 18s linear infinite; }
-        @keyframes move { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        /* Ticker */
+        .ticker-bar { background: var(--primary); color: #fff; font-size: 11px; padding: 6px 0; overflow: hidden; font-weight: 600; }
+        .ticker-move { display: inline-block; white-space: nowrap; animation: moveText 18s linear infinite; }
+        @keyframes moveText { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        #content { flex: 1; overflow-y: auto; padding: 20px 20px 140px; }
-        .tab { display: none; }
-        .tab.active { display: block; animation: fadeInUp 0.4s ease; }
+        /* Main Viewport */
+        #viewport { flex: 1; overflow-y: auto; padding: 25px 20px 140px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeInUp 0.4s ease; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .glass-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(31,38,135,0.05); }
-        .hero { background: linear-gradient(45deg, #6366f1, #a855f7); border-radius: 28px; padding: 25px; color: #fff; margin-bottom: 25px; box-shadow: 0 10px 25px rgba(99,102,241,0.2); }
-        
-        .btn-main { background: #fff; color: #6366f1; border: none; border-radius: 16px; padding: 15px; width: 100%; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .btn-main:active { transform: scale(0.96); }
-        .btn-grad { background: linear-gradient(90deg, #6366f1, #ec4899); color: #fff; margin-top: 15px; border: none; border-radius: 15px; padding: 15px; width: 100%; font-weight: 800; }
+        /* Cards & Buttons */
+        .glass-card { 
+            background: var(--glass); 
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 25px; 
+            padding: 22px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 8px 32px rgba(31,38,135,0.05);
+        }
+        .hero {
+            background: linear-gradient(45deg, #6366f1, #a855f7);
+            border-radius: 30px; padding: 25px; color: #fff; margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(99,102,241,0.25);
+        }
+        .btn-style {
+            background: #fff; color: #6366f1; border: none; border-radius: 16px;
+            padding: 16px; width: 100%; font-weight: 800; font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s;
+        }
+        .btn-style:active { transform: scale(0.96); }
+        .btn-grad {
+            background: linear-gradient(90deg, #6366f1, #ec4899);
+            color: #fff; border: none; border-radius: 16px; padding: 15px;
+            font-weight: 800; width: 100%; box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+            margin-top: 15px;
+        }
 
-        .input-field { width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #ddd; margin-bottom: 12px; outline: none; background: rgba(255,255,255,0.5); }
+        .input-box {
+            width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #ddd;
+            margin-bottom: 12px; outline: none; background: rgba(255,255,255,0.5);
+        }
 
-        .nav-bar { position: fixed; bottom: 25px; left: 20px; right: 20px; background: #fff; border-radius: 25px; display: flex; padding: 12px 5px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-item { flex: 1; text-decoration: none; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 4px; font-weight: 700; font-size: 10px; }
-        .nav-item.active { color: #6366f1; }
-        .nav-item i { font-size: 20px; }
+        /* Nav Island */
+        .nav-island {
+            position: fixed; bottom: 25px; left: 20px; right: 20px;
+            background: #fff; border-radius: 25px; display: flex; padding: 12px 5px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); z-index: 1000;
+        }
+        .nav-link { 
+            flex: 1; text-decoration: none; color: #94a3b8; 
+            display: flex; flex-direction: column; align-items: center; gap: 4px; font-weight: 700; font-size: 10px;
+        }
+        .nav-link.active { color: #6366f1; }
+        .nav-link i { font-size: 22px; }
 
-        .xp-bg { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 6px; }
-        .xp-fill { height: 100%; background: #10b981; width: 0%; transition: 1s; }
-        
+        /* History Status */
         .status-paid { color: #10b981; font-weight: 700; }
         .status-pending { color: #f59e0b; font-weight: 700; }
     </style>
@@ -63,86 +122,228 @@
 <body oncontextmenu="return false;">
 
     <header class="app-header">
-        <div class="user-box">
-            <div class="avatar" id="h-avatar">?</div>
+        <div class="user-profile">
+            <div class="avatar" id="avatar-icon">?</div>
             <div>
-                <div style="font-size: 10px; color: #64748b; font-weight: 800;">ELITE</div>
-                <div id="h-name" style="font-weight: 800; font-size: 15px;">User</div>
+                <div style="font-size: 10px; color: #64748b; font-weight: 800;">ELITE MEMBER</div>
+                <div id="user-name" style="font-weight: 800; font-size: 16px;">User</div>
             </div>
         </div>
-        <div class="bal-chip"><i class="fas fa-coins"></i> <span id="h-bal">0</span> EP</div>
+        <div class="bal-chip">
+            <i class="fas fa-coins"></i> <span id="user-bal">0</span> EP
+        </div>
     </header>
 
-    <div class="ticker">
-        <div class="ticker-move" id="news-text">🚀 Loading latest updates from server... 🚀</div>
+    <div class="ticker-bar">
+        <div class="ticker-move" id="news-text">🔥 Welcome to Extra Pulse! Join our Telegram for the latest payment proofs and big rewards! 🔥</div>
     </div>
 
-    <main id="content">
-        <div id="home" class="tab active">
+    <main id="viewport">
+        <div id="home" class="tab-content active">
             <div class="hero">
-                <h2 style="font-weight: 800;">Daily Gift</h2>
-                <p id="bonus-info" style="font-size: 13px; margin: 5px 0 20px; opacity: 0.9;">Claim your daily bonus!</p>
-                <button class="btn-main" id="claim-btn" onclick="handleClaim()">COLLECT NOW</button>
+                <h2 style="font-weight: 800;">Daily Reward</h2>
+                <p id="bonus-timer" style="font-size: 13px; opacity: 0.9; margin: 8px 0 20px;">Get your free 25 EP bonus!</p>
+                <button class="btn-style" id="claim-btn" onclick="claimDaily()">CLAIM GIFT</button>
             </div>
+            
+            <h4 style="margin: 0 0 12px 5px; color: #64748b;">Earning Hub</h4>
             <div class="glass-card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div><div style="font-weight:800;">Watch Ad</div><div style="font-size:11px; color:#10b981;">+10 EP Reward</div></div>
-                    <button class="btn-main" style="width:auto; padding:8px 18px; background:var(--primary); color:#fff;" onclick="watchAd(10)">PLAY</button>
+                    <div><div style="font-weight:800;">Video Ad</div><div style="font-size:11px; color:#10b981;">+10 EP per view</div></div>
+                    <button class="btn-style" style="width:auto; padding:8px 20px; background:#6366f1; color:#fff;" onclick="playAd(10)">WATCH</button>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px;">
+                    <div><div style="font-weight:800;">Premium Ad</div><div style="font-size:11px; color:#10b981;">+15 EP per view</div></div>
+                    <button class="btn-style" style="width:auto; padding:8px 20px; background:#6366f1; color:#fff;" onclick="playAd(15)">WATCH</button>
                 </div>
             </div>
         </div>
 
-        <div id="play" class="tab">
+        <div id="play" class="tab-content">
             <div class="glass-card" style="text-align:center;">
-                <h3>Lucky Wheel</h3>
-                <div id="wheel" style="width:160px; height:160px; border:6px solid #fff; border-radius:50%; margin:20px auto; background: conic-gradient(var(--primary) 0 90deg, #eee 90deg 180deg, var(--primary) 180deg 270deg, #eee 270deg 360deg); transition: 4s cubic-bezier(0.1, 0, 0.1, 1);"></div>
-                <button class="btn-grad" id="spin-btn" onclick="handleSpin()">SPIN WHEEL</button>
+                <h3 style="margin-bottom:10px;">Lucky Wheel</h3>
+                <div id="wheel" style="width:170px; height:170px; border:8px solid #fff; border-radius:50%; margin:20px auto; background: conic-gradient(#6366f1 0deg 90deg, #ec4899 90deg 180deg, #6366f1 180deg 270deg, #ec4899 270deg 360deg); transition: 4s cubic-bezier(0.1, 0, 0.1, 1); box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></div>
+                <button class="btn-grad" id="spin-btn" onclick="spinWheel()">SPIN NOW</button>
             </div>
         </div>
 
-        <div id="wallet" class="tab">
-            <h3>Withdrawal</h3>
+        <div id="wallet" class="tab-content">
+            <h3 style="margin-bottom:15px;">Withdrawal Center</h3>
             <div class="glass-card">
-                <input type="number" id="w-amt" class="input-field" placeholder="Amount (Min 1000)">
-                <input type="text" id="w-method" class="input-field" placeholder="Nagad/Bkash Number">
-                <button class="btn-grad" onclick="handleWithdraw()">SUBMIT REQUEST</button>
+                <input type="number" id="w-amount" class="input-box" placeholder="EP Amount (Min 1000)">
+                <input type="text" id="w-number" class="input-box" placeholder="Nagad/Bkash Number">
+                <button class="btn-grad" style="background:#10b981;" onclick="submitWithdraw()">CASH OUT</button>
             </div>
-            <div class="glass-card" id="history-list" style="font-size:13px; color:#64748b;">No records found.</div>
+            <h4 style="margin: 20px 0 10px 5px;">Transaction History</h4>
+            <div class="glass-card" id="history-box" style="font-size:13px; color:#64748b;">No history available.</div>
         </div>
 
-        <div id="profile" class="tab">
+        <div id="profile" class="tab-content">
             <div class="glass-card" style="text-align:center;">
-                <div class="avatar" id="p-avatar" style="width:75px; height:75px; margin:0 auto 10px; font-size:26px;">?</div>
-                <h2 id="p-name">User</h2>
-                <div style="text-align:left; margin-top:15px;">
-                    <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800;"><span>LEVEL <span id="p-lvl">1</span></span><span id="p-xp">0/100 XP</span></div>
-                    <div class="xp-bg"><div id="p-bar" class="xp-fill"></div></div>
+                <div class="avatar" id="p-icon" style="width:80px; height:80px; margin:0 auto 15px; font-size:28px;">?</div>
+                <h2 id="p-username">User</h2>
+                <div style="text-align:left; margin-top:20px;">
+                    <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800;">
+                        <span>Progress Level</span> <span id="xp-text">0/100 XP</span>
+                    </div>
+                    <div style="height:10px; background:#e2e8f0; border-radius:10px; margin-top:8px; overflow:hidden;">
+                        <div id="xp-bar" style="height:100%; background:linear-gradient(90deg, #10b981, #34d399); width:0%; transition: 1s;"></div>
+                    </div>
                 </div>
             </div>
-            <h4>Redeem Promo Code</h4>
+            <h4>Redeem Promo</h4>
             <div class="glass-card">
-                <input type="text" id="promo-input" class="input-field" placeholder="Enter Code">
-                <button class="btn-main" style="background:var(--primary); color:#fff;" onclick="handlePromo()">APPLY</button>
+                <input type="text" id="promo-code" class="input-box" placeholder="Enter Promo Code">
+                <button class="btn-style" style="background:var(--primary); color:#fff;" onclick="applyPromo()">APPLY CODE</button>
             </div>
         </div>
 
-        <div id="refer" class="tab">
+        <div id="refer" class="tab-content">
             <div class="glass-card" style="text-align:center; padding:40px 20px;">
                 <i class="fas fa-gift fa-5x" style="color:var(--secondary); margin-bottom:20px;"></i>
-                <h2>Refer Friends</h2>
-                <button class="btn-grad" onclick="handleShare()">SHARE LINK</button>
+                <h2>Invite Program</h2>
+                <p style="color:#64748b; margin-bottom:30px;">Share link with friends and earn +50 EP for each referral!</p>
+                <button class="btn-grad" onclick="shareLink()">SHARE NOW</button>
             </div>
         </div>
 
-        <div id="tg" class="tab">
+        <div id="tg" class="tab-content">
             <div class="glass-card" style="text-align:center; padding:40px 20px;">
                 <i class="fab fa-telegram fa-5x" style="color:#229ED9; margin-bottom:20px;"></i>
-                <button class="btn-main" style="background:#229ED9; color:#fff;" onclick="tg.openTelegramLink('https://t.me/yourlink')">JOIN CHANNEL</button>
+                <h2>Community</h2>
+                <button class="btn-style" style="background:#229ED9; color:#fff;" onclick="tg.openTelegramLink('https://t.me/yourlink')">JOIN CHANNEL</button>
             </div>
         </div>
     </main>
 
-    <nav class="nav-bar">
+    <nav class="nav-island">
+        <a href="javascript:void(0)" class="nav-link active" onclick="showTab('home', this)"><i class="fas fa-home"></i>Home</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('play', this)"><i class="fas fa-gamepad"></i>Play</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('tg', this)"><i class="fas fa-bullhorn"></i>TG</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('refer', this)"><i class="fas fa-user-plus"></i>Refer</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('wallet', this)"><i class="fas fa-wallet"></i>Wallet</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('profile', this)"><i class="fas fa-user-circle"></i>User</a>
+    </nav>
+
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyAuS8RpixezmpBpIlB0YQURpG6s-0LEvKM", authDomain: "extra-pulse.firebaseapp.com", databaseURL: "https://extra-pulse-default-rtdb.firebaseio.com", projectId: "extra-pulse", appId: "1:300110920993:web:9c36ebccbd38df27815260" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        const uid = tg.initDataUnsafe.user?.id || "9900";
+        const fname = tg.initDataUnsafe.user?.first_name || "User";
+        let u = {};
+
+        function startApp() {
+            db.ref('users/' + uid).on('value', s => {
+                u = s.val() || { balance: 0, xp: 0, lastBonus: 0, lastSpin: 0, name: fname };
+                updateUI();
+            });
+            db.ref('admin/news').on('value', s => { if(s.val()) document.getElementById('news-text').innerText = s.val(); });
+            loadTxHistory();
+        }
+
+        function updateUI() {
+            document.getElementById('user-bal').innerText = u.balance;
+            document.getElementById('user-name').innerText = fname;
+            document.getElementById('p-username').innerText = fname;
+            document.getElementById('avatar-icon').innerText = fname[0];
+            document.getElementById('p-icon').innerText = fname[0];
+
+            const lvlXP = u.xp % 100;
+            document.getElementById('xp-text').innerText = lvlXP + "/100 XP";
+            document.getElementById('xp-bar').style.width = lvlXP + "%";
+
+            const diff = Date.now() - (u.lastBonus || 0);
+            document.getElementById('claim-btn').disabled = diff < 86400000;
+            if(diff < 86400000) document.getElementById('bonus-timer').innerText = "Next gift in " + Math.ceil((86400000-diff)/3600000) + "h";
+
+            document.getElementById('spin-btn').disabled = (Date.now() - (u.lastSpin || 0)) < 7200000;
+        }
+
+        function claimDaily() {
+            db.ref('users/' + uid).transaction(curr => {
+                if(curr) { curr.balance += 25; curr.xp += 15; curr.lastBonus = Date.now(); }
+                return curr;
+            });
+            tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        function playAd(amt) {
+            if(typeof show_10527731 === 'function') {
+                show_10527731().then(() => {
+                    db.ref('users/' + uid).transaction(curr => { if(curr) { curr.balance += amt; curr.xp += 5; } return curr; });
+                    tg.showAlert("+"+amt+" EP Added!");
+                });
+            } else tg.showAlert("Ad server busy.");
+        }
+
+        function spinWheel() {
+            const w = document.getElementById('wheel');
+            const deg = Math.floor(3600 + Math.random() * 3600);
+            w.style.transform = "rotate(" + deg + "deg)";
+            setTimeout(() => {
+                const prize = [5, 10, 25, 50][Math.floor(Math.random()*4)];
+                db.ref('users/' + uid).update({ balance: u.balance + prize, xp: u.xp + 5, lastSpin: Date.now() });
+                tg.showAlert("You won " + prize + " EP!");
+            }, 4000);
+        }
+
+        function submitWithdraw() {
+            const a = parseInt(document.getElementById('w-amount').value);
+            const n = document.getElementById('w-number').value;
+            if(!a || a < 1000 || !n) return tg.showAlert("Min 1000 EP & Number required!");
+            if(u.balance < a) return tg.showAlert("Insufficient balance!");
+
+            db.ref('payouts/' + uid + '/' + Date.now()).set({ amount: a, method: n, status: 'pending', date: new Date().toLocaleDateString() });
+            db.ref('users/' + uid).update({ balance: u.balance - a });
+            tg.showAlert("Withdrawal Pending!");
+        }
+
+        function loadTxHistory() {
+            db.ref('payouts/' + uid).limitToLast(5).on('value', s => {
+                let h = "";
+                s.forEach(p => {
+                    const d = p.val();
+                    h = '<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;"><span>' + d.amount + ' EP</span><span class="status-' + d.status + '">' + d.status.toUpperCase() + '</span></div>' + h;
+                });
+                document.getElementById('history-box').innerHTML = h || "No transactions yet.";
+            });
+        }
+
+        function applyPromo() {
+            const code = document.getElementById('promo-code').value;
+            db.ref('admin/promos/' + code).once('value', s => {
+                if(s.exists()) {
+                    db.ref('users/' + uid + '/promos/' + code).once('value', used => {
+                        if(used.exists()) return tg.showAlert("Already used!");
+                        db.ref('users/' + uid).transaction(c => { if(c) c.balance += s.val(); return c; });
+                        db.ref('users/' + uid + '/promos/' + code).set(true);
+                        tg.showAlert("Applied! +" + s.val() + " EP");
+                    });
+                } else tg.showAlert("Invalid Code!");
+            });
+        }
+
+        function showTab(id, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        function shareLink() {
+            const l = "https://t.me/extrapulse_bot/app?startapp=" + uid;
+            tg.openTelegramLink("https://t.me/share/url?url=" + encodeURIComponent(l) + "&text=Join Extra Pulse!");
+        }
+
+        window.onload = startApp;
+    </script>
+</body>
+</html>    <nav class="nav-bar">
         <a href="javascript:void(0)" class="nav-item active" onclick="switchTab('home', this)"><i class="fas fa-house"></i>Home</a>
         <a href="javascript:void(0)" class="nav-item" onclick="switchTab('play', this)"><i class="fas fa-gamepad"></i>Play</a>
         <a href="javascript:void(0)" class="nav-item" onclick="switchTab('tg', this)"><i class="fas fa-bullhorn"></i>TG</a>
