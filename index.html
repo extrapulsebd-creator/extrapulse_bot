@@ -3,38 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Extra Pulse</title>
+    <title>Extra Pulse - Premium UX</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    
     <script src='//libtl.com/sdk.js' data-zone='10527731' data-sdk='show_10527731'></script>
 
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --orange-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-            --bg: #0b0f1a; --text: #f8fafc;
+            --bg: #05080f;
+            --card-bg: rgba(16, 20, 32, 0.6);
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --grad: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
 
-        /* Premium Header */
-        .app-bar { padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; background: rgba(11, 15, 26, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
-        .avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; font-weight: 800; box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
-        .coin-box { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--glass-border); padding: 8px 18px; border-radius: 25px; display: flex; align-items: center; gap: 8px; font-weight: 900; color: #fbbf24; font-size: 16px; }
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent),
+                              radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.1), transparent);
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            height: 100vh; width: 100vw;
+            overflow: hidden; display: flex; flex-direction: column;
+        }
 
-        /* Main View */
-        #main-view { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 130px; }
-        .page { display: none; animation: fadeIn 0.4s ease; }
+        /* --- Header UX --- */
+        .app-header {
+            padding: 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(5, 8, 15, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+        }
+
+        .user-pill { display: flex; align-items: center; gap: 12px; }
+        .avatar-circle {
+            width: 44px; height: 44px;
+            border-radius: 14px;
+            background: var(--grad);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 18px;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .balance-chip {
+            background: rgba(255, 191, 0, 0.1);
+            border: 1px solid rgba(255, 191, 0, 0.2);
+            padding: 8px 16px; border-radius: 12px;
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 800; color: #fbbf24;
+        }
+
+        /* --- Main Content --- */
+        #content-area {
+            flex: 1; overflow-y: auto;
+            padding: 20px; padding-bottom: 120px;
+            scrollbar-width: none;
+        }
+        #content-area::-webkit-scrollbar { display: none; }
+
+        .page { display: none; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* --- Premium Cards --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 20px; margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .promo-card {
+            background: var(--grad);
+            border-radius: 28px; padding: 25px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        /* --- Streak System --- */
+        .streak-container {
+            display: grid; grid-template-columns: repeat(6, 1fr);
+            gap: 8px; margin: 20px 0;
+        }
+        .day-box {
+            background: rgba(255,255,255,0.1);
+            aspect-ratio: 1; border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .day-box.active { background: #fff; color: var(--accent); transform: scale(1.05); }
+        .day-box.done { background: #10b981; color: white; border: none; }
+
+        /* --- Buttons --- */
+        .btn-action {
+            background: #ffffff; color: #000;
+            border: none; border-radius: 18px;
+            padding: 16px; width: 100%;
+            font-weight: 800; font-size: 15px;
+            cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-action:active { transform: scale(0.96); opacity: 0.9; }
+
+        /* --- Bottom Nav --- */
+        .nav-bar {
+            position: fixed; bottom: 20px; left: 15px; right: 15px;
+            background: rgba(16, 20, 32, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 22px;
+            display: flex; justify-content: space-around;
+            padding: 10px; z-index: 1000;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+        .nav-link {
+            text-decoration: none; color: var(--text-dim);
+            display: flex; flex-direction: column; align-items: center;
+            gap: 5px; font-size: 10px; font-weight: 700; flex: 1;
+        }
+        .nav-link i { font-size: 22px; transition: 0.3s; }
+        .nav-link.active { color: #fff; }
+        .nav-link.active i { color: var(--accent); transform: translateY(-3px); }
+
+        /* --- Task List --- */
+        .task-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px; background: rgba(255,255,255,0.03);
+            border-radius: 20px; margin-bottom: 12px;
+        }
+        
+        .input-premium {
+            width: 100%; background: rgba(0,0,0,0.2);
+            border: 1px solid var(--glass-border);
+            padding: 16px; border-radius: 16px;
+            color: #fff; margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="user-pill">
+            <div class="avatar-circle" id="h-av">?</div>
+            <div>
+                <div style="font-size: 11px; color: var(--text-dim);">Extra Pulse</div>
+                <div id="h-name" style="font-weight: 800; font-size: 15px;">Loading...</div>
+            </div>
+        </div>
+        <div class="balance-chip">
+            <i class="fas fa-coins"></i>
+            <span id="bal-val">0</span>
+        </div>
+    </header>
+
+    <main id="content-area">
+        <div id="home" class="page active">
+            <div class="promo-card">
+                <div style="font-weight: 800; font-size: 18px;">Daily Rewards</div>
+                <p style="font-size: 12px; opacity: 0.8; margin: 5px 0 15px 0;">Log in every day to multiply your EP!</p>
+                <div class="streak-container" id="streak-bar">
+                    <div class="day-box">D1</div>
+                    <div class="day-box">D2</div>
+                    <div class="day-box">D3</div>
+                    <div class="day-box">D4</div>
+                    <div class="day-box">D5</div>
+                    <div class="day-box">D6</div>
+                </div>
+                <button class="btn-action" onclick="handleDailyClaim()">
+                    <i class="fas fa-calendar-check"></i> CLAIM REWARD
+                </button>
+            </div>
+
+            <div class="card" onclick="showTab('refer', document.querySelector('.nav-ref'))" style="background: linear-gradient(to right, #f59e0b, #ea580c); margin-top:20px; border:none; cursor:pointer;">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <i class="fas fa-gift fa-2x"></i>
+                    <div>
+                        <div style="font-weight:800;">INVITE FRIENDS</div>
+                        <div style="font-size:12px; opacity:0.9;">Earn 50 EP per verified join</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="task" class="page">
+            <h3 style="margin-bottom:20px;">Available Tasks</h3>
+            <div class="task-item">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; background:rgba(99,102,241,0.15); border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--accent);">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight:700; font-size:14px;">Premium Video Ad</div>
+                        <div style="font-size:12px; color:#10b981;">+10 EP Reward</div>
+                    </div>
+                </div>
+                <button class="btn-action" style="width:auto; padding:10px 20px; font-size:12px;" onclick="showRewardAd(10)">WATCH</button>
+            </div>
+        </div>
+
+        <div id="tg" class="page">
+            <h3>Community Tasks</h3>
+            <div class="card">
+                <div style="text-align:center; padding:10px;">
+                    <i class="fab fa-telegram fa-4x" style="color:#229ED9; margin-bottom:15px;"></i>
+                    <div style="font-weight:800; font-size:18px;">Join Official Channel</div>
+                    <p style="color:var(--text-dim); font-size:13px;">Follow us for payment proofs and updates.</p>
+                    <button class="btn-action" style="background:#229ED9; color:#fff;" onclick="tg.openTelegramLink('https://t.me/yourlink')">JOIN NOW</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="refer" class="page">
+            <div class="card" style="text-align:center; padding:35px 20px;">
+                <div style="font-size:50px; margin-bottom:15px;">🚀</div>
+                <h2 style="margin:0;">Refer & Earn</h2>
+                <p style="color:var(--text-dim); margin-bottom:25px;">Your network is your net worth. Invite and earn!</p>
+                <button class="btn-action" style="background:var(--grad); color:#fff;" onclick="shareLink()">
+                    <i class="fas fa-share-nodes"></i> SHARE INVITE LINK
+                </button>
+            </div>
+        </div>
+
+        <div id="wallet" class="page">
+            <h3>Cash Out</h3>
+            <div class="card">
+                <div style="font-size:12px; color:var(--text-dim); margin-bottom:8px;">Withdrawal Method</div>
+                <div style="display:flex; gap:10px; margin-bottom:20px;">
+                    <div style="flex:1; background:rgba(255,255,255,0.05); padding:10px; border-radius:12px; border:1px solid var(--accent); display:flex; align-items:center; gap:8px;">
+                        <img src="https://freelogopng.com/images/all_img/1679248787nagad-logo-png.png" width="25"> Nagad / Bkash
+                    </div>
+                </div>
+                <input type="number" class="input-premium" placeholder="EP Amount (Min 1000)">
+                <input type="text" class="input-premium" placeholder="Your Phone Number">
+                <button class="btn-action" style="background:#10b981; color:#fff;">WITHDRAW NOW</button>
+            </div>
+        </div>
+
+        <div id="profile" class="page">
+            <div class="card" style="text-align:center;">
+                <div class="avatar-circle" id="p-av" style="width:80px; height:80px; margin:0 auto 15px; font-size:32px;">?</div>
+                <h2 id="p-name" style="margin:0">Username</h2>
+                <div id="p-id" style="color:var(--text-dim); font-size:12px; margin-top:5px;">ID: ---</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:25px;">
+                    <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:18px;">
+                        <div style="font-size:10px; color:var(--text-dim);">STATUS</div>
+                        <div style="font-weight:800; color:#10b981;">Active</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:18px;">
+                        <div style="font-size:10px; color:var(--text-dim);">LEVEL</div>
+                        <div style="font-weight:800; color:var(--accent);">Elite</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <nav class="nav-bar">
+        <a href="javascript:void(0)" class="nav-link active" onclick="showTab('home', this)"><i class="fas fa-home-alt"></i>Home</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('task', this)"><i class="fas fa-bolt"></i>Task</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('tg', this)"><i class="fas fa-layer-group"></i>TG</a>
+        <a href="javascript:void(0)" class="nav-link nav-ref" onclick="showTab('refer', this)"><i class="fas fa-users"></i>Refer</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('wallet', this)"><i class="fas fa-wallet"></i>Wallet</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('profile', this)"><i class="fas fa-user-circle"></i>Profile</a>
+    </nav>
+
+    <script>
+        // 1. Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAuS8RpixezmpBpIlB0YQURpG6s-0LEvKM",
+            authDomain: "extra-pulse.firebaseapp.com",
+            databaseURL: "https://extra-pulse-default-rtdb.firebaseio.com",
+            projectId: "extra-pulse",
+            appId: "1:300110920993:web:9c36ebccbd38df27815260"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // 2. Telegram Init
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        const user = tg.initDataUnsafe.user;
+        const userId = user?.id || "guest_" + Math.floor(Math.random()*1000);
+        const firstName = user?.first_name || "Guest";
+
+        let userData = { balance: 0, streak: 0 };
+
+        // 3. Functions
+        function syncUser() {
+            const userRef = db.ref('users/' + userId);
+            userRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    userData = data;
+                    updateUI();
+                } else {
+                    const refBy = new URLSearchParams(window.location.search).get('startapp') || null;
+                    userRef.set({ name: firstName, balance: 0, streak: 0, invitedBy: refBy });
+                    if(refBy && refBy != userId) {
+                        db.ref('users/' + refBy + '/balance').transaction(b => (b || 0) + 50);
+                    }
+                }
+            });
+        }
+
+        function showRewardAd(amount) {
+            if (typeof show_10527731 === 'function') {
+                show_10527731().then(() => { addEP(amount); }).catch(() => { tg.showAlert("Ad skipped."); });
+            } else {
+                tg.showAlert("Ads are loading...");
+            }
+        }
+
+        function addEP(val) {
+            db.ref('users/' + userId).update({ balance: (userData.balance || 0) + val });
+            tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        function updateUI() {
+            document.getElementById('bal-val').innerText = userData.balance || 0;
+            document.getElementById('h-name').innerText = firstName;
+            document.getElementById('h-av').innerText = firstName.charAt(0);
+            document.getElementById('p-name').innerText = firstName;
+            document.getElementById('p-av').innerText = firstName.charAt(0);
+            document.getElementById('p-id').innerText = "ID: " + userId;
+
+            const chips = document.querySelectorAll('.day-box');
+            chips.forEach((c, i) => {
+                c.classList.remove('active', 'done');
+                if(i < userData.streak) c.classList.add('done');
+                if(i === userData.streak) c.classList.add('active');
+            });
+        }
+
+        function handleDailyClaim() {
+            const rewards = [10, 20, 25, 30, 50, 80];
+            db.ref('users/' + userId).update({
+                balance: (userData.balance || 0) + (rewards[userData.streak] || 10),
+                streak: (userData.streak + 1) % 6
+            });
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        function shareLink() {
+            const link = `https://t.me/extrapulse_bot/app?startapp=${userId}`;
+            tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=Join Extra Pulse and earn EP rewards! 🚀`);
+        }
+
+        function showTab(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            if(el) el.classList.add('active');
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        window.onload = syncUser;
+    </script>
+</body>
+</html>
         /* UI Components */
         .card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 24px; padding: 20px; margin-bottom: 15px; }
         .premium-card { background: var(--primary-gradient); border-radius: 28px; padding: 25px; margin-bottom: 20px; box-shadow: 0 15px 30px rgba(99, 102, 241, 0.2); }
