@@ -4,37 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Extra Pulse Elite</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="https://libtl.com/sdk.js" data-zone="10527731" data-sdk="show_10527731"></script>
-
     <style>
-        :root {
-            --primary: #6366f1;
-            --secondary: #ec4899;
-            --bg-grad: linear-gradient(135deg, #fdfcfb 0%, #e2d1f9 100%);
-            --glass: rgba(255, 255, 255, 0.75);
-            --text-dark: #1e293b;
+        :root { --p: #6366f1; --s: #ec4899; --bg: linear-gradient(135deg, #fdfcfb 0%, #e2d1f9 100%); --g: rgba(255,255,255,0.75); }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; color: #1e293b; }
+        .head { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: var(--g); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.4); z-index: 100; }
+        .av { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(45deg, var(--p), var(--s)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; }
+        .bal { background: #fff; padding: 8px 14px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #f59e0b; font-weight: 800; font-size: 14px; display: flex; gap: 6px; }
+        .tick { background: var(--p); color: #fff; font-size: 11px; padding: 6px 0; overflow: hidden; }
+        .t-move { display: inline-block; white-space: nowrap; animation: move 18s linear infinite; }
+        @keyframes move { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        #main { flex: 1; overflow-y: auto; padding: 25px 20px 140px; }
+        .tab { display: none; } .tab.active { display: block; animation: up 0.4s ease; }
+        @keyframes up { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .card { background: var(--g); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); border-radius: 25px; padding: 22px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(31,38,135,0.05); }
+        .hero { background: linear-gradient(45deg, #6366f1, #a855f7); border-radius: 30px; padding: 25px; color: #fff; margin-bottom: 25px; }
+        .btn { background: #fff; color: #6366f1; border: none; border-radius: 16px; padding: 15px; width: 100%; font-weight: 800; font-size: 14px; cursor: pointer; }
+        .btn-g { background: linear-gradient(90deg, #6366f1, #ec4899); color: #fff; border: none; border-radius: 16px; padding: 15px; font-weight: 800; width: 100%; margin-top: 15px; }
+        .inp { width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #ddd; margin-bottom: 12px; outline: none; background: rgba(255,255,255,0.5); }
+        .nav { position: fixed; bottom: 25px; left: 20px; right: 20px; background: #fff; border-radius: 25px; display: flex; padding: 12px 5px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .n-link { flex: 1; text-decoration: none; color: #94a3b8; display: flex; flex-direction: column; align-items: center; gap: 4px; font-weight: 700; font-size: 10px; }
+        .n-link.active { color: #6366f1; }
+        .status-paid { color: #10b981; font-weight: 700; }
+        .status-pending { color: #f59e0b; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <div style="display:flex; align-items:center; gap:12px;">
+            <div class="av" id="av_icon">?</div>
+            <div><div style="font-size:10px; font-weight:800; color:#64748b;">ELITE</div><div id="u_name" style="font-weight:800;">User</div></div>
+        </div>
+        <div class="bal"><i class="fas fa-coins"></i> <span id="u_bal">0</span> EP</div>
+    </div>
+    <div class="tick"><div class="t-move" id="n_text">🔥 Welcome to Extra Pulse Elite! Join Telegram for Daily Promo Codes! 🔥</div></div>
+    <main id="main">
+        <div id="home" class="tab active">
+            <div class="hero"><h2>Daily Bonus</h2><p id="b_timer" style="margin:10px 0 20px; font-size:13px;">Claim 25 EP Daily!</p><button class="btn" id="clm_b" onclick="doClaim()">CLAIM GIFT</button></div>
+            <div class="card"><div style="display:flex; justify-content:space-between; align-items:center;"><div><b>Watch Ad</b><br><small style="color:#10b981;">+10 EP Reward</small></div><button class="btn" style="width:auto; padding:8px 20px; background:#6366f1; color:#fff;" onclick="doAd(10)">PLAY</button></div></div>
+        </div>
+        <div id="play" class="tab">
+            <div class="card" style="text-align:center;"><h3>Lucky Wheel</h3><div id="wh" style="width:160px; height:160px; border:6px solid #fff; border-radius:50%; margin:20px auto; background: conic-gradient(#6366f1 0 90deg, #ec4899 90deg 180deg, #6366f1 180deg 270deg, #ec4899 270deg 360deg); transition: 4s ease-out;"></div><button class="btn-g" id="spn_b" onclick="doSpin()">SPIN & WIN</button></div>
+        </div>
+        <div id="wallet" class="tab">
+            <h3>Withdraw</h3>
+            <div class="card"><input type="number" id="w_a" class="inp" placeholder="Amount (Min 1000)"><input type="text" id="w_n" class="inp" placeholder="Nagad/Bkash Number"><button class="btn-g" style="background:#10b981;" onclick="doWithdraw()">SUBMIT</button></div>
+            <div class="card" id="h_box" style="font-size:12px; color:#666;">No history.</div>
+        </div>
+        <div id="profile" class="tab">
+            <div class="card" style="text-align:center;"><div class="av" id="p_av" style="width:70px; height:70px; margin:0 auto 10px; font-size:26px;">?</div><h2 id="p_nm">User</h2><div style="text-align:left; margin-top:15px;"><div style="display:flex; justify-content:space-between; font-size:11px; font-weight:800;"><span>LEVEL <span id="p_lv">1</span></span> <span id="p_xp">0/100 XP</span></div><div style="height:8px; background:#e2e8f0; border-radius:10px; margin-top:5px; overflow:hidden;"><div id="xp_f" style="height:100%; background:#10b981; width:0%; transition: 1s;"></div></div></div></div>
+            <div class="card"><input type="text" id="p_c" class="inp" placeholder="Promo Code"><button class="btn" style="background:#6366f1; color:#fff;" onclick="doPromo()">APPLY</button></div>
+        </div>
+        <div id="ref" class="tab"><div class="card" style="text-align:center; padding:40px 20px;"><i class="fas fa-gift fa-4x" style="color:#ec4899;"></i><h2 style="margin:15px 0;">Refer Friends</h2><p style="font-size:13px; color:#666; margin-bottom:20px;">Earn +50 EP per refer!</p><button class="btn-g" onclick="doRef()">INVITE</button></div></div>
+    </main>
+    <nav class="nav">
+        <a href="javascript:void(0)" class="n-link active" onclick="tab('home',this)"><i class="fas fa-home"></i>Home</a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('play',this)"><i class="fas fa-gamepad"></i>Play</a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('ref',this)"><i class="fas fa-user-plus"></i>Refer</a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('wallet',this)"><i class="fas fa-wallet"></i>Wallet</a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('profile',this)"><i class="fas fa-user-circle"></i>User</a>
+    </nav>
+    <script>
+        const cfg = { apiKey: "AIzaSyAuS8RpixezmpBpIlB0YQURpG6s-0LEvKM", databaseURL: "https://extra-pulse-default-rtdb.firebaseio.com" };
+        firebase.initializeApp(cfg); const db = firebase.database(); const tg = window.Telegram.WebApp; tg.expand();
+        const uid = tg.initDataUnsafe.user?.id || "9900"; const fname = tg.initDataUnsafe.user?.first_name || "Guest";
+        let u = {};
+        function init() {
+            db.ref('users/'+uid).on('value', s => { u = s.val() || {balance:0, xp:0, lastBonus:0, lastSpin:0}; render(); });
+            db.ref('admin/news').on('value', s => { if(s.val()) document.getElementById('n_text').innerText = s.val(); });
+            loadH();
         }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
-        body { background: var(--bg-grad); color: var(--text-dark); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-
-        .app-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: var(--glass); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.4); z-index: 1000; }
-        .avatar { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(45deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; box-shadow: 0 4px 12px rgba(99,102,241,0.2); }
-        .bal-chip { background: #fff; padding: 8px 14px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #f59e0b; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 6px; }
-
-        .ticker { background: var(--primary); color: #fff; font-size: 11px; padding: 6px 0; overflow: hidden; font-weight: 600; }
-        .ticker-move { display: inline-block; white-space: nowrap; animation: moveText 18s linear infinite; }
-        @keyframes moveText { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
-
-        #viewport { flex: 1; overflow-y: auto; padding: 25px 20px 140px; }
-        .tab-content { display: none; }
+        function render() {
+            document.getElementById('u_bal').innerText = u.balance || 0;
+            document.getElementById('u_name').innerText = fname;
+            document.getElementById('p_nm').innerText = fname;
+            document.getElementById('av_icon').innerText = fname[0];
+            document.getElementById('p_av').innerText = fname[0];
+            const lv = Math.floor((u.xp||0)/100)+1; const xp = (u.xp||0)%100;
+            document.getElementById('p_lv').innerText = lv;
+            document.getElementById('p_xp').innerText = xp + "/100 XP";
+            document.getElementById('xp_f').style.width = xp + "%";
+            const diff = Date.now() - (u.lastBonus||0);
+            document.getElementById('clm_b').disabled = diff < 86400000;
+            document.getElementById('spn_b').disabled = (Date.now() - (u.lastSpin||0)) < 7200000;
+        }
+        function doClaim() { db.ref('users/'+uid).transaction(c => { if(c){ c.balance+=25; c.xp+=15; c.lastBonus=Date.now(); } return c; }); tg.HapticFeedback.notificationOccurred('success'); }
+        function doAd(a) { if(typeof show_10527731 === 'function'){ show_10527731().then(() => { db.ref('users/'+uid).transaction(c => { if(c){ c.balance+=a; c.xp+=5; } return c; }); }); } else tg.showAlert("Ad loading..."); }
+        function doSpin() { const w = document.getElementById('wh'); const d = 3600 + Math.floor(Math.random()*3600); w.style.transform = "rotate("+d+"deg)"; setTimeout(() => { const win = [5,10,20,50][Math.floor(Math.random()*4)]; db.ref('users/'+uid).update({balance:(u.balance||0)+win, xp:(u.xp||0)+5, lastSpin:Date.now()}); tg.showAlert("Win: "+win+" EP"); }, 4000); }
+        function doWithdraw() { const a = parseInt(document.getElementById('w_a').value); const n = document.getElementById('w_n').value; if(!a || a<1000 || !n) return tg.showAlert("Min 1000!"); if(u.balance < a) return tg.showAlert("Low balance!"); db.ref('payouts/'+uid+'/'+Date.now()).set({amount:a, method:n, status:'pending', date:new Date().toLocaleDateString()}); db.ref('users/'+uid).update({balance:u.balance-a}); tg.showAlert("Requested!"); }
+        function loadH() { db.ref('payouts/'+uid).limitToLast(5).on('value', s => { let h = ""; s.forEach(p => { const d = p.val(); h = '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;"><span>'+d.amount+' EP</span><span class="status-'+d.status+'">'+d.status.toUpperCase()+'</span></div>' + h; }); document.getElementById('h_box').innerHTML = h || "No history."; }); }
+        function doPromo() { const c = document.getElementById('p_c').value; db.ref('admin/promos/'+c).once('value', s => { if(s.exists()){ db.ref('users/'+uid+'/promos/'+c).once('value', used => { if(used.exists()) return tg.showAlert("Used!"); db.ref('users/'+uid).transaction(u => { if(u) u.balance+=s.val(); return u; }); db.ref('users/'+uid+'/promos/'+c).set(true); tg.showAlert("Success!"); }); } else tg.showAlert("Invalid!"); }); }
+        function tab(id, el) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.n-link').forEach(n => n.classList.remove('active')); el.classList.add('active'); tg.HapticFeedback.impactOccurred('light'); }
+        function doRef() { const l = "https://t.me/extrapulse_bot/app?startapp="+uid; tg.openTelegramLink("https://t.me/share/url?url="+encodeURIComponent(l)); }
+        window.onload = init;
+    </script>
+</body>
+</html>        .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeInUp 0.4s ease; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
