@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Extra Pulse - Premium UX</title>
+    <title>Extra Pulse - Ultra Edition</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -15,26 +15,252 @@
 
     <style>
         :root {
-            --bg: #05080f;
-            --card-bg: rgba(16, 20, 32, 0.6);
+            --bg: #04070d;
+            --card: rgba(255, 255, 255, 0.06);
             --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.4);
-            --text-main: #ffffff;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
             --text-dim: #94a3b8;
-            --grad: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        * { 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Plus Jakarta Sans', sans-serif; user-select: none; }
+        body { background-color: var(--bg); color: var(--text-main); margin: 0; padding: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+        /* Header */
+        .app-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: rgba(4, 7, 13, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index: 100; }
+        .pfp-box { width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), #a855f7); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
+        .balance-pill { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.2); padding: 8px 14px; border-radius: 20px; color: #fbbf24; font-weight: 800; font-size: 14px; }
+
+        /* Content Scroll */
+        #viewport { flex: 1; overflow-y: auto; padding: 20px 20px 150px 20px; }
+        .page { display: none; animation: pageIn 0.4s ease-out; }
+        .page.active { display: block; }
+        @keyframes pageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* UI Elements */
+        .glass-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; margin-bottom: 16px; backdrop-filter: blur(10px); }
+        .hero { background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 28px; padding: 25px; margin-bottom: 20px; }
+        .btn-prime { background: #fff; color: #000; border: none; border-radius: 18px; padding: 16px; width: 100%; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .btn-prime:active { transform: scale(0.96); }
+        .btn-prime:disabled { background: rgba(255,255,255,0.1); color: var(--text-dim); }
+
+        /* Spin Wheel Style */
+        .spin-container { text-align: center; padding: 10px; }
+        #wheel { width: 180px; height: 180px; border: 8px solid var(--border); border-radius: 50%; margin: 0 auto 15px; position: relative; transition: transform 4s cubic-bezier(0.1, 0, 0.1, 1); background: conic-gradient(#6366f1 0deg 60deg, #8b5cf6 60deg 120deg, #6366f1 120deg 180deg, #8b5cf6 180deg 240deg, #6366f1 240deg 300deg, #8b5cf6 300deg 360deg); }
+        #wheel::before { content: '▼'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 20px; z-index: 10; }
+
+        /* Leaderboard Style */
+        .rank-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid var(--border); }
+        .rank-num { width: 25px; font-weight: 800; color: var(--accent); }
+
+        /* Bottom Nav */
+        .nav-dock { position: fixed; bottom: 20px; left: 15px; right: 15px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 24px; display: flex; justify-content: space-around; padding: 12px 6px; z-index: 1000; }
+        .nav-link { text-decoration: none; color: var(--text-dim); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; flex: 1; transition: 0.3s; }
+        .nav-link i { font-size: 22px; }
+        .nav-link.active { color: #fff; }
+        .nav-link.active i { color: var(--accent); transform: translateY(-3px); }
+
+        .input-field { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 16px; border-radius: 16px; color: #fff; margin-bottom: 12px; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <header class="app-header">
+        <div style="display:flex; align-items:center; gap:12px;">
+            <div class="pfp-box" id="h-pfp">?</div>
+            <div><div style="font-size:10px; color:var(--text-dim);">Balance</div><div id="h-name" style="font-weight:800;">User</div></div>
+        </div>
+        <div class="balance-pill"><i class="fas fa-coins"></i> <span id="bal-txt">0</span> EP</div>
+    </header>
+
+    <main id="viewport">
+        <div id="home" class="page active">
+            <div class="hero">
+                <div style="font-weight:800; font-size:18px;">Daily Bonus</div>
+                <p id="bonus-timer" style="font-size:12px; margin:8px 0 18px 0;">Loading...</p>
+                <button class="btn-prime" id="claim-btn" onclick="handleClaim()">CLAIM REWARD</button>
+            </div>
+            <div class="glass-card" onclick="showTab('refer', document.querySelector('.nav-ref'))" style="background:linear-gradient(90deg, #f59e0b, #ea580c); border:none; cursor:pointer;">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <i class="fas fa-users-crown fa-2x"></i>
+                    <div><div style="font-weight:800;">Referral</div><div style="font-size:12px;">Earn 50 EP per friend</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="task" class="page">
+            <div class="glass-card spin-container">
+                <div style="font-weight:800; margin-bottom:15px;">Lucky Spin (Every 2h)</div>
+                <div id="wheel"></div>
+                <button class="btn-prime" id="spin-btn" onclick="spinWheel()">SPIN NOW</button>
+            </div>
+            <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
+                <div><div style="font-weight:700;">Monetag Video</div><div style="color:#10b981; font-size:12px;">+10 EP</div></div>
+                <button class="btn-prime" style="width:auto; padding:10px 18px;" onclick="watchAd(10)">WATCH</button>
+            </div>
+        </div>
+
+        <div id="tg" class="page">
+            <div class="glass-card" style="text-align:center; padding:40px 20px;">
+                <i class="fab fa-telegram fa-5x" style="color:#229ED9; margin-bottom:20px;"></i>
+                <button class="btn-prime" style="background:#229ED9; color:#fff;" onclick="tg.openTelegramLink('https://t.me/yourlink')">JOIN CHANNEL</button>
+            </div>
+        </div>
+
+        <div id="refer" class="page">
+            <div class="glass-card" style="text-align:center;">
+                <i class="fas fa-share-nodes fa-4x" style="color:var(--accent); margin-bottom:15px;"></i>
+                <h2>Invite Friends</h2>
+                <button class="btn-prime" style="background:var(--accent); color:#fff;" onclick="share()">SHARE LINK</button>
+            </div>
+        </div>
+
+        <div id="wallet" class="page">
+            <div class="glass-card">
+                <input type="number" id="w-amt" class="input-field" placeholder="Amount">
+                <input type="text" id="w-num" class="input-field" placeholder="Nagad/Bkash">
+                <button class="btn-prime" style="background:#10b981;" onclick="withdraw()">WITHDRAW</button>
+            </div>
+            <h4 style="margin:10px 5px;">History</h4>
+            <div id="history-list" class="glass-card" style="font-size:12px; color:var(--text-dim);">No transactions yet.</div>
+        </div>
+
+        <div id="profile" class="page">
+            <div class="glass-card" style="text-align:center;">
+                <div class="pfp-box" id="p-pfp" style="width:70px; height:70px; margin:0 auto 10px;">?</div>
+                <h3 id="p-name" style="margin:0;">User</h3>
+                <p id="p-id" style="font-size:11px; color:var(--text-dim);">ID: ---</p>
+            </div>
+            <h4 style="margin:15px 5px;"><i class="fas fa-trophy" style="color:#fbbf24;"></i> Global Leaderboard</h4>
+            <div class="glass-card" id="leaderboard-list" style="padding:10px;">
+                Loading rankings...
+            </div>
+        </div>
+    </main>
+
+    <nav class="nav-dock">
+        <a href="javascript:void(0)" class="nav-link active" onclick="showTab('home', this)"><i class="fas fa-home"></i>Home</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('task', this)"><i class="fas fa-gamepad"></i>Play</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('tg', this)"><i class="fas fa-bullhorn"></i>TG</a>
+        <a href="javascript:void(0)" class="nav-link nav-ref" onclick="showTab('refer', this)"><i class="fas fa-users"></i>Refer</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('wallet', this)"><i class="fas fa-wallet"></i>Wallet</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="showTab('profile', this)"><i class="fas fa-user-circle"></i>Profile</a>
+    </nav>
+
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyAuS8RpixezmpBpIlB0YQURpG6s-0LEvKM", authDomain: "extra-pulse.firebaseapp.com", databaseURL: "https://extra-pulse-default-rtdb.firebaseio.com", projectId: "extra-pulse", appId: "1:300110920993:web:9c36ebccbd38df27815260" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        const userId = tg.initDataUnsafe.user?.id || "6699";
+        const firstName = tg.initDataUnsafe.user?.first_name || "Guest";
+        let userData = {};
+
+        function sync() {
+            db.ref('users/' + userId).on('value', s => {
+                userData = s.val() || { balance: 0, streak: 0, lastBonus: 0, lastSpin: 0 };
+                updateUI();
+            });
+            loadLeaderboard();
         }
 
-        body {
-            background-color: var(--bg);
-            background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent),
-                              radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.1), transparent);
+        function updateUI() {
+            document.getElementById('bal-txt').innerText = userData.balance;
+            document.getElementById('h-name').innerText = firstName;
+            document.getElementById('p-name').innerText = firstName;
+            document.getElementById('h-pfp').innerText = firstName[0];
+            document.getElementById('p-pfp').innerText = firstName[0];
+            document.getElementById('p-id').innerText = "ID: " + userId;
+
+            // Timer Daily
+            const diff = Date.now() - (userData.lastBonus || 0);
+            const btn = document.getElementById('claim-btn');
+            if(diff < 86400000) {
+                btn.disabled = true;
+                document.getElementById('bonus-timer').innerText = "Wait " + Math.ceil((86400000-diff)/3600000) + "h";
+            } else { btn.disabled = false; document.getElementById('bonus-timer').innerText = "Ready!"; }
+
+            // Spin Timer
+            const sDiff = Date.now() - (userData.lastSpin || 0);
+            document.getElementById('spin-btn').disabled = sDiff < 7200000;
+        }
+
+        function spinWheel() {
+            const wheel = document.getElementById('wheel');
+            const deg = Math.floor(5000 + Math.random() * 5000);
+            wheel.style.transform = `rotate(${deg}deg)`;
+            document.getElementById('spin-btn').disabled = true;
+            
+            setTimeout(() => {
+                const win = [5, 10, 20, 50, 5, 15][Math.floor(Math.random()*6)];
+                db.ref('users/' + userId).update({ 
+                    balance: (userData.balance + win),
+                    lastSpin: Date.now() 
+                });
+                tg.showAlert("You won " + win + " EP!");
+            }, 4000);
+        }
+
+        function loadLeaderboard() {
+            db.ref('users').orderByChild('balance').limitToLast(10).on('value', s => {
+                let html = '';
+                let players = [];
+                s.forEach(child => { players.push(child.val()); });
+                players.reverse().forEach((p, i) => {
+                    html += `<div class="rank-item"><div style="display:flex;gap:10px;"><span class="rank-num">#${i+1}</span> <span>${p.name}</span></div> <b>${p.balance} EP</b></div>`;
+                });
+                document.getElementById('leaderboard-list').innerHTML = html;
+            });
+        }
+
+        function withdraw() {
+            const amt = document.getElementById('w-amt').value;
+            if(amt < 1000) return tg.showAlert("Min 1000 EP");
+            if(userData.balance < amt) return tg.showAlert("Low Balance");
+            
+            db.ref('users/' + userId + '/balance').transaction(b => b - amt);
+            db.ref('withdrawals').push({ userId, amt, status: 'pending', time: Date.now() });
+            tg.showAlert("Request Sent!");
+        }
+
+        function handleClaim() {
+            db.ref('users/' + userId).transaction(d => {
+                if(d && Date.now() - (d.lastBonus||0) > 86400000) {
+                    d.balance = (d.balance || 0) + 20;
+                    d.lastBonus = Date.now();
+                }
+                return d;
+            });
+            tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        function watchAd(a) {
+            if(typeof show_10527731==='function') {
+                show_10527731().then(() => {
+                    db.ref('users/' + userId + '/balance').transaction(b => (b||0)+a);
+                    tg.showAlert("+"+a+" EP!");
+                });
+            } else tg.showAlert("Ads loading...");
+        }
+
+        function share() {
+            const l = `https://t.me/extrapulse_bot/app?startapp=${userId}`;
+            tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(l)}&text=Join Extra Pulse!`);
+        }
+
+        function showTab(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            if(el) el.classList.add('active');
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        window.onload = sync;
+    </script>
+</body>
+</html>                              radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.1), transparent);
             color: var(--text-main);
             margin: 0; padding: 0;
             height: 100vh; width: 100vw;
