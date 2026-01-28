@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Extra Pulse Pro</title>
+    <title>Extra Pulse Elite</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,38 +11,33 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="https://libtl.com/sdk.js" data-zone="10527731" data-sdk="show_10527731"></script>
+    
+    <script id="ad-script" src="https://libtl.com/sdk.js" data-zone="10527731" data-sdk="show_10527731"></script>
 
     <style>
-        :root { --p: #4f46e5; --s: #f43f5e; --acc: #fbbf24; --bg: #f8fafc; }
+        :root { --p: #6366f1; --s: #f43f5e; --acc: #fbbf24; --bg: #f8fafc; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: #eff6ff; color: #1e293b; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-
-        /* Header & Dynamic Elements */
-        .header { padding: 20px; display: flex; align-items: center; justify-content: space-between; background: #fff; border-bottom: 2px solid #e2e8f0; }
-        .u-pic { width: 50px; height: 50px; border-radius: 15px; border: 3px solid var(--p); object-fit: cover; }
-        .bal-chip { background: linear-gradient(135deg, #fbbf24, #f59e0b); padding: 10px 16px; border-radius: 20px; color: #fff; font-weight: 800; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
-
-        #view { flex: 1; overflow-y: auto; padding: 20px 20px 140px; }
-        .tab { display: none; } .tab.active { display: block; animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Cards & Buttons */
-        .card { background: #fff; border-radius: 28px; padding: 22px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #fff; }
-        .btn-grad { background: linear-gradient(90deg, var(--p), #818cf8); color: #fff; border: none; padding: 16px; border-radius: 18px; width: 100%; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; box-shadow: 0 6px 15px rgba(79, 70, 229, 0.2); }
-        .btn-grad:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; }
-
-        /* Bottom Navigation - Enlarged */
-        .nav { position: fixed; bottom: 15px; left: 15px; right: 15px; background: #1e293b; border-radius: 30px; display: flex; padding: 15px 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 9999; }
-        .n-link { flex: 1; text-align: center; color: #94a3b8; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .n-link i { font-size: 24px; } /* Icons Boro Kora Hoyeche */
-        .n-link span { font-size: 11px; font-weight: 700; }
-        .n-link.active { color: #fff; transform: translateY(-5px); transition: 0.3s; }
-        .n-link.active i { color: var(--acc); }
-
-        /* Custom Styles */
-        .icon-box { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .rank-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #f1f5f9; border-radius: 18px; margin-bottom: 10px; }
+        body { background: #f0f4f8; color: #1e293b; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        .header { padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; background: #fff; border-bottom: 1px solid #e2e8f0; }
+        .u-pic { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--p); background: #f1f5f9; }
+        .bal-chip { background: linear-gradient(135deg, #fbbf24, #f59e0b); padding: 8px 15px; border-radius: 20px; color: #fff; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+        #view { flex: 1; overflow-y: auto; padding: 15px 20px 140px; scroll-behavior: smooth; }
+        .tab { display: none; } .tab.active { display: block; animation: fadeInUp 0.3s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card { background: #fff; border-radius: 24px; padding: 22px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid rgba(255,255,255,0.8); }
+        .btn-grad { background: linear-gradient(90deg, var(--p), #818cf8); color: #fff; border: none; padding: 14px; border-radius: 16px; width: 100%; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.2s; position: relative; text-transform: uppercase; }
+        .btn-grad:disabled { opacity: 0.6; cursor: not-allowed; }
+        .nav { position: fixed; bottom: 15px; left: 12px; right: 12px; background: #1e293b; border-radius: 20px; display: flex; padding: 8px 4px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); z-index: 1000; }
+        .n-link { flex: 1; text-align: center; color: #94a3b8; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .n-link i { font-size: 18px; }
+        .n-link span { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; }
+        .n-link.active { color: #fff; } .n-link.active i { color: var(--acc); }
+        .promo-input { background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; width: 100%; font-weight: 700; margin-bottom: 12px; outline: none; }
+        .ref-box { background: #f1f5f9; border-radius: 16px; padding: 15px; margin-top: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px dashed var(--p); }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .status-badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+        .pending { background: #fff7ed; color: #ea580c; } .success { background: #f0fdf4; color: #16a34a; } .rejected { background: #fef2f2; color: #dc2626; }
+        .task-icon { width: 40px; height: 40px; border-radius: 10px; background: #f1f5f9; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -50,269 +45,271 @@
     <header class="header">
         <div style="display:flex; align-items:center; gap:12px;">
             <img src="" id="u-pic" class="u-pic">
-            <div><p id="u-nm" style="font-weight:800; font-size:18px; color:#1e293b;">Loading...</p></div>
+            <div><p id="u-nm" style="font-weight:800; font-size:16px;">LOADING...</p></div>
         </div>
         <div class="bal-chip"><i class="fas fa-coins"></i> <span id="u-bl">0</span></div>
     </header>
 
     <main id="view">
         <div id="home" class="tab active">
-            <div class="card" style="background: linear-gradient(45deg, #4f46e5, #ec4899); color: #fff;">
-                <h2 style="font-size: 22px;"><i class="fas fa-gift"></i> Daily Reward</h2>
-                <p style="margin: 10px 0 20px; font-size: 14px; opacity: 0.9;">Claim your 25 EP once every 24h.</p>
-                <button class="btn-grad" id="clm-btn" style="background:#fff; color:#4f46e5;" onclick="claimDaily()">CLAIM NOW</button>
+            <div class="card" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff;">
+                <h3 style="text-transform: uppercase;"><i class="fas fa-gift"></i> DAILY REWARD</h3>
+                <button class="btn-grad" id="clm-btn" style="background: #fff; color: #6366f1; margin-top:15px;" onclick="claimDaily()">CLAIM NOW</button>
             </div>
-            
-            <h4 style="margin: 20px 0 15px; color: #64748b; font-weight: 800;">Earn More Coins</h4>
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <div class="icon-box" style="background:#fef2f2; color:#ef4444;"><i class="fas fa-play-circle"></i></div>
-                        <div><b style="font-size:16px;">Watch Ad</b><br><small style="color:#10b981;">+10 EP Coin</small></div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <i class="fas fa-play-circle" style="font-size:30px; color:var(--s);"></i><b style="text-transform: uppercase;">WATCH ADS</b>
                     </div>
-                    <button class="btn-grad" style="width:auto; padding:12px 25px;" onclick="doAd(10)">WATCH</button>
+                    <button class="btn-grad" id="ad-btn" style="width:auto; padding:10px 20px;" onclick="doAd()">WATCH</button>
                 </div>
             </div>
-        </div>
-
-        <div id="tasks" class="tab">
-            <h3 style="margin-bottom:20px;">Social Missions</h3>
             <div class="card">
-                <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:15px; border-bottom:1.5px solid #f1f5f9;">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <div class="icon-box" style="background:#e0f2fe; color:#0ea5e9;"><i class="fab fa-telegram-plane"></i></div>
-                        <div><b>Telegram</b><br><small>+50 EP</small></div>
-                    </div>
-                    <button class="btn-grad" id="t-tg" style="width:auto; padding:10px 20px;" onclick="doTask('tg', 'https://t.me/your_channel', 50)">JOIN</button>
+                <p style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Copy Refer Link</p>
+                <div class="ref-box">
+                    <code id="ref-link" style="font-size:10px; color:var(--p); font-weight: 700;">Loading...</code>
+                    <button onclick="copyRef()" style="background:var(--p); color:#fff; border:none; padding:6px 12px; border-radius:10px; font-size:10px; font-weight:800;">COPY</button>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; padding-top:15px;">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <div class="icon-box" style="background:#fee2e2; color:#ef4444;"><i class="fab fa-youtube"></i></div>
-                        <div><b>YouTube</b><br><small>+50 EP</small></div>
-                    </div>
-                    <button class="btn-grad" id="t-yt" style="width:auto; padding:10px 20px;" onclick="doTask('yt', 'https://youtube.com/@your_channel', 50)">SUB</button>
-                </div>
+                <button style="background:#10b981; color:#fff; border:none; padding:12px; border-radius:12px; width:100%; font-weight:800; font-size:12px; margin-top:10px; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="shareInvite()">
+                    <i class="fas fa-user-plus"></i> INVITE FRIENDS
+                </button>
             </div>
         </div>
 
-        <div id="leaderboard" class="tab">
-            <h3 style="margin-bottom:20px;">Top Earners</h3>
-            <div id="rank-list"></div>
-        </div>
-
+        <div id="tasks" class="tab"><h3 style="margin-bottom:20px; text-transform: uppercase;">SOCIAL TASKS</h3><div id="dynamic-tasks"></div></div>
+        
+        <div id="leaderboard" class="tab"><h3 style="margin-bottom:20px; text-transform: uppercase;">TOP HUNTERS 🏆</h3><div id="rank-list" class="card" style="padding:0;"></div></div>
+        
         <div id="play" class="tab">
             <div class="card" style="text-align:center;">
-                <h3 style="font-size:22px;">Lucky Spin</h3>
-                <p id="s-timer" style="color:var(--s); font-weight:800; margin:10px 0;"></p>
-                <p id="s-rem" style="font-size:14px; font-weight:700; margin-bottom:15px;">Spins Available: 5/5</p>
-                <div id="wheel" style="width:200px; height:200px; border:10px solid #1e293b; border-radius:50%; margin:20px auto; background: conic-gradient(#4f46e5 0 90deg, #f43f5e 90deg 180deg, #4f46e5 180deg 270deg, #f43f5e 270deg 360deg); transition: 4s cubic-bezier(0.1, 0, 0.1, 1);"></div>
-                <button class="btn-grad" id="spn-btn" onclick="spinWheel()">SPIN TO WIN</button>
-            </div>
-        </div>
-
-        <div id="profile" class="tab">
-            <div class="card" style="text-align:center; background: linear-gradient(180deg, #fff, #f1f5f9);">
-                <img src="" id="p-img" style="width:110px; height:110px; border-radius:30px; border:5px solid #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom:15px;">
-                <h2 id="p-nm">User</h2>
-                <p style="font-size:13px; color:#64748b; margin-top:5px;">Joined: <span id="p-date">...</span></p>
-                <div style="margin-top:25px; text-align:left;">
-                    <div style="display:flex; justify-content:space-between; font-weight:800; font-size:13px; color:var(--p);">
-                        <span>Level <span id="p-lvl">1</span></span>
-                        <span id="p-xp-txt">0/100 XP</span>
-                    </div>
-                    <div style="height:12px; background:#e2e8f0; border-radius:10px; margin-top:8px; overflow:hidden;">
-                        <div id="xp-f" style="height:100%; background:linear-gradient(90deg, var(--p), var(--s)); width:0%; transition:1.5s;"></div>
-                    </div>
-                </div>
+                <h3 style="text-transform: uppercase;">LUCKY WHEEL</h3>
+                <p id="s-rem" style="font-weight:800; margin:10px 0; color:var(--p);">SPINS: 0/5</p>
+                <div id="wheel" style="width:180px; height:180px; border:8px solid #1e293b; border-radius:50%; margin:15px auto; background: conic-gradient(#6366f1 0 90deg, #f43f5e 90deg 180deg, #6366f1 180deg 270deg, #f43f5e 270deg 360deg); transition: 4s transform cubic-bezier(0.15, 0, 0.15, 1);"></div>
+                <button class="btn-grad" id="spn-btn" onclick="spinWheel()">SPIN NOW</button>
             </div>
         </div>
 
         <div id="wallet" class="tab">
-            <h3>Withdrawal</h3>
+            <h3 style="margin-bottom:20px; text-transform: uppercase;">WALLET</h3>
             <div class="card">
-                <p style="font-size:12px; color:#64748b;">Current EP Balance</p>
-                <h1 style="color:var(--p); font-size:32px; margin-bottom:20px;"><span id="w-bal">0</span> EP</h1>
-                
-                <input type="number" id="w-a" class="btn-grad" style="background:#f8fafc; color:#1e293b; text-align:left; border:1px solid #e2e8f0; margin-bottom:15px;" placeholder="Amount (Min 1000)">
-                <select id="w-m" class="btn-grad" style="background:#f8fafc; color:#1e293b; text-align:left; border:1px solid #e2e8f0; margin-bottom:15px;">
-                    <option value="bKash">bKash</option>
-                    <option value="Nagad">Nagad</option>
-                    <option value="Binance">Binance (UID)</option>
-                </select>
-                <input type="text" id="w-n" class="btn-grad" style="background:#f8fafc; color:#1e293b; text-align:left; border:1px solid #e2e8f0; margin-bottom:20px;" placeholder="Number / UID">
-                
-                <button class="btn-grad" style="background:#10b981;" onclick="withdraw()">SUBMIT REQUEST</button>
+                <p style="text-transform: uppercase; font-size: 11px; color:#64748b;">CURRENT BALANCE</p>
+                <h2 style="color:var(--p); margin-bottom:20px;"><span id="w-bal">0</span> EP</h2>
+                <input type="number" id="w-a" class="promo-input" placeholder="ENTER EP AMOUNT">
+                <select id="w-m" style="width:100%; padding:14px; border-radius:16px; margin-bottom:12px; font-weight:700; background:#f8fafc; border:1px solid #e2e8f0;"><option value="" disabled selected>SELECT METHOD</option><option value="bKash">BKASH</option><option value="Nagad">NAGAD</option><option value="Binance">BINANCE UID</option></select>
+                <input type="text" id="w-n" class="promo-input" placeholder="ACCOUNT NUMBER / ID">
+                <p id="min-wd-text" style="font-size:10px; color:var(--s); margin-bottom:10px; font-weight:700;"></p>
+                <button class="btn-grad" id="wd-btn" style="background:#10b981;" onclick="withdraw()">SUBMIT REQUEST</button>
+            </div>
+            <div class="card">
+                <h4 style="margin-bottom:15px; text-transform: uppercase; font-size: 13px;"><i class="fas fa-history"></i> Withdraw History</h4>
+                <div id="wd-history-list"></div>
+            </div>
+        </div>
+
+        <div id="profile" class="tab">
+            <div class="card" style="text-align:center;">
+                <img src="" id="p-img" style="width:90px; height:90px; border-radius:50%; margin-bottom:15px; border:3px solid var(--p);">
+                <h2 id="p-nm">USER</h2>
+                <div style="height: 8px;"></div>
+                <p id="p-date" style="font-size:12px; color:#64748b; text-transform: uppercase;"></p>
+                <div style="text-align: left; border-top: 1px solid #f1f5f9; padding-top: 20px; margin-top: 20px;">
+                    <b style="font-size: 12px; text-transform: uppercase;">Redeem Promo Code</b>
+                    <input type="text" id="promo-code" class="promo-input" style="margin-top:10px;" placeholder="ENTER CODE HERE">
+                    <button class="btn-grad" onclick="applyPromo()">REDEEM CODE</button>
+                </div>
+                <div style="margin-top: 25px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
+                    <button id="help-btn" style="background: #0088cc; color: #fff; border: none; padding: 14px; border-radius: 16px; width: 100%; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;"><i class="fab fa-telegram-plane"></i> HELP CENTER</button>
+                </div>
             </div>
         </div>
     </main>
 
     <nav class="nav">
-        <a href="javascript:void(0)" class="n-link active" onclick="tab('home',this)"><i class="fas fa-home"></i><span>Home</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('tasks',this)"><i class="fas fa-tasks"></i><span>Tasks</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('leaderboard',this)"><i class="fas fa-trophy"></i><span>Rank</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('play',this)"><i class="fas fa-gamepad"></i><span>Spin</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('wallet',this)"><i class="fas fa-wallet"></i><span>Wallet</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('profile',this)"><i class="fas fa-user-circle"></i><span>User</span></a>
+        <a href="javascript:void(0)" class="n-link active" onclick="tab('home',this)"><i class="fas fa-home"></i><span>HOME</span></a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('tasks',this)"><i class="fas fa-tasks"></i><span>TASKS</span></a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('leaderboard',this)"><i class="fas fa-trophy"></i><span>RANK</span></a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('play',this)"><i class="fas fa-gamepad"></i><span>SPIN</span></a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('wallet',this)"><i class="fas fa-wallet"></i><span>WALLET</span></a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('profile',this)"><i class="fas fa-user-circle"></i><span>USER</span></a>
     </nav>
 
     <script>
         const cfg = { apiKey: "AIzaSyAuS8RpixezmpBpIlB0YQURpG6s-0LEvKM", databaseURL: "https://extra-pulse-default-rtdb.firebaseio.com" };
         firebase.initializeApp(cfg); const db = firebase.database(); 
         const tg = window.Telegram.WebApp; tg.expand();
-        
-        // AUTO SYNC TELEGRAM DATA
-        const u = tg.initDataUnsafe.user || { id: "0000", first_name: "Premium User", photo_url: "" };
-        const uid = u.id, fname = u.first_name;
-        const photo = u.photo_url || `https://ui-avatars.com/api/?name=${fname}&background=4f46e5&color=fff&size=128`;
+        const user = tg.initDataUnsafe.user || { id: "000", first_name: "GUEST" };
+        const uid = user.id;
 
-        let uData = {};
+        let uData = {}; let sysSettings = { daily: 25, spin: 10, watch: 10, min_withdraw: 1000, help_link: "https://t.me/default" };
+        let isProcessing = false;
 
         function start() {
+            // ADMIN SETTINGS SYNC
+            db.ref('settings').on('value', s => { 
+                if(s.exists()) {
+                    sysSettings = s.val();
+                    document.getElementById('min-wd-text').innerText = `MINIMUM WITHDRAW: ${sysSettings.min_withdraw} EP`;
+                    document.getElementById('help-btn').onclick = () => window.open(sysSettings.help_link, '_blank');
+                }
+            });
+
+            // USER DATA SYNC
             db.ref('users/'+uid).on('value', s => {
-                uData = s.val() || {
-                    balance: 0, xp: 0, name: fname, photo: photo,
-                    joined: new Date().toLocaleDateString(),
-                    lastBonus: 0, spins: 5, spinTime: 0, tasks: {}
-                };
+                uData = s.val() || { balance: 0, name: user.first_name, photo: user.photo_url || `https://ui-avatars.com/api/?name=${user.first_name}&background=6366f1&color=fff&bold=true`, joined: new Date().toLocaleDateString(), spins: 5, tasks: {}, usedPromos: {} };
                 if(!s.exists()) db.ref('users/'+uid).set(uData);
                 syncUI();
             });
-            loadRank();
+
+            // ADMIN DYNAMIC TASKS SYNC
+            db.ref('tasks').on('value', s => {
+                let h = ""; 
+                if(s.exists()){
+                    s.forEach(t => {
+                        let task = t.val(); if(uData.tasks && uData.tasks[t.key]) return;
+                        h += `<div class="card"><div style="display:flex; justify-content:space-between; align-items:center;"><div style="display:flex; align-items:center; gap:12px;"><img src="${task.icon || 'https://cdn-icons-png.flaticon.com/512/743/743226.png'}" class="task-icon"><div><b style="text-transform:uppercase; font-size:13px;">${task.title}</b><br><small style="color:var(--p); font-weight:800;">+${task.reward} EP</small></div></div><button class="btn-grad" style="width:auto; padding:8px 15px;" onclick="doTask('${t.key}', '${task.url}', ${task.reward})">GO</button></div></div>`;
+                    });
+                }
+                document.getElementById('dynamic-tasks').innerHTML = h || "<p style='text-align:center; font-weight:700;'>NO TASKS AVAILABLE</p>";
+            });
+
+            loadRank(); loadHistory();
+            document.getElementById('ref-link').innerText = `https://t.me/extrapulse_bot?start=${uid}`;
+        }
+
+        function callAd(cb) {
+            if (typeof show_10527731 === 'function') {
+                show_10527731().then(() => { if(cb) cb(); }).catch(() => { if(cb) cb(); });
+            } else { if(cb) cb(); }
         }
 
         function syncUI() {
-            document.getElementById('u-bl').innerText = uData.balance || 0;
-            document.getElementById('w-bal').innerText = uData.balance || 0;
-            document.getElementById('u-nm').innerText = uData.name;
-            document.getElementById('p-nm').innerText = uData.name;
-            document.getElementById('u-pic').src = uData.photo;
-            document.getElementById('p-img').src = uData.photo;
-            document.getElementById('p-date').innerText = uData.joined;
-
-            // Level Logic
-            const lvl = Math.floor((uData.xp || 0) / 100) + 1;
-            document.getElementById('p-lvl').innerText = lvl;
-            document.getElementById('p-xp-txt').innerText = ((uData.xp||0)%100) + "/100 XP";
-            document.getElementById('xp-f').style.width = ((uData.xp||0)%100) + "%";
-
-            // Daily Bonus Logic (24h)
-            const now = Date.now();
-            const canClaim = (now - (uData.lastBonus || 0)) > 86400000;
-            document.getElementById('clm-btn').disabled = !canClaim;
-            document.getElementById('clm-btn').innerText = canClaim ? "CLAIM 25 EP" : "CLAIMED (Back Tomorrow)";
-
-            // Hourly Spin Logic (5 spins per 1h)
-            if (now - (uData.spinTime || 0) > 3600000) {
-                db.ref('users/'+uid).update({ spins: 5, spinTime: now });
-            }
-            document.getElementById('s-rem').innerText = `Spins Available: ${uData.spins}/5`;
-            document.getElementById('spn-btn').disabled = (uData.spins <= 0);
-            
-            // Task Lock Logic
-            if(uData.tasks?.tg) document.getElementById('t-tg').disabled = true;
-            if(uData.tasks?.yt) document.getElementById('t-yt').disabled = true;
+            document.getElementById('u-bl').innerText = uData.balance; document.getElementById('w-bal').innerText = uData.balance;
+            document.getElementById('u-nm').innerText = (uData.name || "GUEST").toUpperCase(); 
+            document.getElementById('p-nm').innerText = (uData.name || "GUEST").toUpperCase();
+            document.getElementById('u-pic').src = uData.photo; document.getElementById('p-img').src = uData.photo;
+            document.getElementById('p-date').innerText = "JOINED: " + (uData.joined || "");
+            document.getElementById('s-rem').innerText = `SPINS: ${uData.spins || 0}/5`;
+            document.getElementById('spn-btn').disabled = (uData.spins <= 0 || isProcessing);
+            const now = Date.now(); document.getElementById('clm-btn').disabled = (now - (uData.lastBonus || 0)) < 86400000;
         }
 
         function claimDaily() {
-            showAd(() => {
+            if(isProcessing) return; isProcessing = true;
+            callAd(() => {
                 db.ref('users/'+uid).transaction(c => {
-                    if(c) { c.balance += 25; c.xp += 20; c.lastBonus = Date.now(); }
+                    if(c && (Date.now() - (c.lastBonus || 0) > 86400000)) { c.balance += parseInt(sysSettings.daily); c.lastBonus = Date.now(); }
                     return c;
-                });
-                tg.showAlert("Daily Reward Claimed!");
+                }, () => { isProcessing = false; tg.showAlert("DAILY REWARD ADDED!"); });
             });
         }
 
         function spinWheel() {
-            if (uData.spins <= 0) return;
-            showAd(() => {
-                const w = document.getElementById('wheel');
-                const deg = 3600 + Math.floor(Math.random() * 3600);
-                w.style.transform = `rotate(${deg}deg)`;
-                document.getElementById('spn-btn').disabled = true;
-                
+            if(isProcessing || uData.spins <= 0) return;
+            isProcessing = true; document.getElementById('spn-btn').disabled = true;
+            callAd(() => {
+                const rotation = 3600 + Math.floor(Math.random() * 360);
+                const wheel = document.getElementById('wheel');
+                wheel.style.transform = `rotate(${rotation}deg)`;
                 setTimeout(() => {
-                    const win = [5, 10, 15, 20, 50][Math.floor(Math.random()*5)];
                     db.ref('users/'+uid).transaction(c => {
-                        if(c) { c.balance += win; c.xp += 5; c.spins -= 1; }
+                        if(c && c.spins > 0) { c.balance += parseInt(sysSettings.spin); c.spins -= 1; }
                         return c;
+                    }, (err, comm) => {
+                        isProcessing = false;
+                        if(comm) tg.showAlert(`SUCCESS! ${sysSettings.spin} EP ADDED.`);
                     });
-                    tg.showAlert(`You won ${win} EP!`);
-                }, 4000);
+                }, 4100);
             });
         }
 
-        function doTask(id, link, r) {
-            if(uData.tasks && uData.tasks[id]) return;
-            tg.openLink(link);
-            setTimeout(() => {
-                db.ref('users/'+uid).transaction(c => {
-                    if(c && (!c.tasks || !c.tasks[id])) {
-                        if(!c.tasks) c.tasks = {};
-                        c.tasks[id] = true;
-                        c.balance += r; c.xp += 15;
-                    }
-                    return c;
-                });
-                tg.showAlert("Task Verified! +"+r+" EP");
-            }, 5000);
-        }
-
-        function doAd(a) {
-            showAd(() => {
-                db.ref('users/'+uid).transaction(c => {
-                    if(c) { c.balance += a; c.xp += 5; }
-                    return c;
+        function doAd() {
+            if(isProcessing) return; isProcessing = true;
+            callAd(() => {
+                db.ref('users/'+uid+'/balance').transaction(b => (b || 0) + parseInt(sysSettings.watch), () => { 
+                    isProcessing = false; tg.showAlert("AD REWARD ADDED!"); 
                 });
             });
+        }
+
+        function withdraw() {
+            const a = parseInt(document.getElementById('w-a').value); 
+            const m = document.getElementById('w-m').value; 
+            const n = document.getElementById('w-n').value;
+            if(!a || a < sysSettings.min_withdraw || !m || !n) return tg.showAlert("FILL ALL DETAILS!");
+            if(uData.balance < a) return tg.showAlert("LOW BALANCE!");
+            isProcessing = true;
+            callAd(() => {
+                db.ref('payouts').push({ amount: a, method: m, address: n, status: 'pending', name: uData.name, uid: uid, time: Date.now() });
+                db.ref('users/'+uid+'/balance').transaction(b => b - a, () => { 
+                    isProcessing = false; 
+                    tg.showAlert("SUCCESS! REQUEST SUBMITTED."); 
+                    document.getElementById('w-a').value=""; document.getElementById('w-n').value="";
+                });
+            });
+        }
+
+        function loadHistory() {
+            db.ref('payouts').orderByChild('uid').equalTo(uid).on('value', s => {
+                let h = ""; if(!s.exists()) h = "<p style='text-align:center; font-size:12px; color:#94a3b8;'>No history.</p>";
+                s.forEach(child => {
+                    const d = child.val();
+                    h = `<div class="history-item"><div><b>${d.amount} EP</b><br><small>${d.method}</small></div><span class="status-badge ${d.status}">${d.status}</span></div>` + h;
+                });
+                document.getElementById('wd-history-list').innerHTML = h;
+            });
+        }
+
+        function tab(id, el) {
+            if(id === 'wallet') callAd();
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.n-link').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
         }
 
         function loadRank() {
-            db.ref('users').orderByChild('balance').limitToLast(10).on('value', s => {
+            db.ref('users').orderByChild('balance').limitToLast(15).on('value', s => {
                 let list = []; s.forEach(u => list.push(u.val()));
                 let h = ""; list.reverse().forEach((u, i) => {
-                    h += `<div class="rank-row">
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <b style="color:var(--p); width:20px;">#${i+1}</b>
-                            <img src="${u.photo}" style="width:35px; height:35px; border-radius:50%; border:1px solid #ddd;">
-                            <span style="font-weight:700; font-size:14px;">${u.name}</span>
-                        </div>
-                        <b style="color:#f59e0b;">${u.balance} EP</b>
-                    </div>`;
+                    let medal = (i === 0) ? "🥇" : (i === 1) ? "🥈" : (i === 2) ? "🥉" : (i + 1);
+                    h += `<div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #f1f5f9;"><div style="display:flex; align-items:center; gap:10px;"><span>${medal}</span><b>${(u.name || "GUEST").toUpperCase()}</b></div><span>${u.balance} EP</span></div>`;
                 });
                 document.getElementById('rank-list').innerHTML = h;
             });
         }
 
-        function withdraw() {
-            const a = parseInt(document.getElementById('w-a').value);
-            const n = document.getElementById('w-n').value;
-            if(!a || a < 1000 || !n) return tg.showAlert("Min 1000 EP required!");
-            if(uData.balance < a) return tg.showAlert("Insufficient Balance!");
-            
-            showAd(() => {
-                db.ref('payouts/'+uid+'/'+Date.now()).set({
-                    amount: a, method: document.getElementById('w-m').value, address: n, status: 'pending'
-                });
-                db.ref('users/'+uid+'/balance').transaction(b => b - a);
-                tg.showAlert("Withdrawal Request Submitted!");
+        function doTask(tid, url, reward) {
+            window.open(url, '_blank');
+            tg.showConfirm("TASK COMPLETED?", (ok) => {
+                if(ok) {
+                    db.ref('users/'+uid).transaction(c => {
+                        if(c) { if(!c.tasks) c.tasks = {}; c.tasks[tid] = true; c.balance += reward; }
+                        return c;
+                    }, () => tg.showAlert("REWARD ADDED!"));
+                }
             });
         }
 
-        function showAd(cb) {
-            if(typeof show_10527731 === 'function') {
-                show_10527731().then(() => cb()).catch(() => cb());
-            } else { cb(); }
+        function applyPromo() {
+            const code = document.getElementById('promo-code').value.trim();
+            if(!code || (uData.usedPromos && uData.usedPromos[code])) return tg.showAlert("INVALID OR USED!");
+            db.ref('promocodes/'+code).once('value', s => {
+                const p = s.val(); if(p) {
+                    isProcessing = true;
+                    db.ref('users/'+uid).transaction(c => {
+                        if(c) { if(!c.usedPromos) c.usedPromos = {}; c.usedPromos[code] = true; c.balance += p.reward; }
+                        return c;
+                    }, () => { isProcessing = false; tg.showAlert("PROMO APPLIED!"); document.getElementById('promo-code').value=""; });
+                } else tg.showAlert("INVALID CODE!");
+            });
         }
 
-        function tab(id, el) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.n-link').forEach(n => n.classList.remove('active'));
-            el.classList.add('active');
-            tg.HapticFeedback.impactOccurred('medium');
+        function copyRef() { navigator.clipboard.writeText(document.getElementById('ref-link').innerText); tg.showAlert("COPIED!"); }
+        function shareInvite() {
+            const txt = `Join and Earn! https://t.me/extrapulse_bot?start=${uid}`;
+            if (navigator.share) navigator.share({ text: txt });
+            else window.open(`https://t.me/share/url?url=${txt}`);
         }
-
         window.onload = start;
     </script>
 </body>
