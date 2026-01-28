@@ -14,12 +14,12 @@
     <script src="https://libtl.com/sdk.js" data-zone="10527731" data-sdk="show_10527731"></script>
 
     <style>
-        :root { --p: #6366f1; --s: #ec4899; --bg: #fdfcfb; --glass: rgba(255, 255, 255, 0.9); }
+        :root { --p: #6366f1; --s: #ec4899; --bg: #fdfcfb; --glass: rgba(255, 255, 255, 0.95); }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: linear-gradient(135deg, #fdfcfb 0%, #e2d1f9 100%); color: #1e293b; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
         .header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; background: var(--glass); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.5); z-index: 100; }
-        .avatar { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(45deg, var(--p), var(--s)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; box-shadow: 0 4px 12px rgba(99,102,241,0.2); }
+        .avatar { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(45deg, var(--p), var(--s)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; }
         .bal-chip { background: #fff; padding: 8px 14px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #f59e0b; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 6px; }
 
         .ticker { background: var(--p); color: #fff; font-size: 11px; padding: 6px 0; overflow: hidden; font-weight: 600; }
@@ -30,23 +30,21 @@
         .tab { display: none; } .tab.active { display: block; animation: fadeInUp 0.4s ease; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card { background: var(--glass); border: 1px solid rgba(255,255,255,0.7); border-radius: 25px; padding: 22px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(31,38,135,0.05); }
+        .card { background: var(--glass); border: 1px solid rgba(255,255,255,0.8); border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(31,38,135,0.04); }
         .hero { background: linear-gradient(45deg, #6366f1, #a855f7); border-radius: 30px; padding: 25px; color: #fff; margin-bottom: 25px; }
         
         .btn { background: #fff; color: var(--p); border: none; padding: 15px; border-radius: 16px; width: 100%; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .btn-grad { background: linear-gradient(90deg, #6366f1, #ec4899); color: #fff; border: none; padding: 15px; border-radius: 16px; width: 100%; font-weight: 800; margin-top: 15px; }
-        .btn:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .inp { width: 100%; padding: 14px; border-radius: 15px; border: 1px solid #ddd; margin-bottom: 12px; outline: none; background: rgba(255,255,255,0.5); }
-        
-        .nav { position: fixed; bottom: 25px; left: 20px; right: 20px; background: #fff; border-radius: 25px; display: flex; padding: 12px 5px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .nav { position: fixed; bottom: 25px; left: 20px; right: 20px; background: #fff; border-radius: 25px; display: flex; padding: 12px 5px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
         .n-link { flex: 1; text-align: center; color: #94a3b8; text-decoration: none; font-size: 10px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .n-link.active { color: var(--p); }
-        .n-link i { font-size: 22px; }
+        .n-link i { font-size: 20px; }
 
-        .xp-bg { height: 10px; background: #e2e8f0; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .xp-f { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); width: 0%; transition: 1s; }
-        .status-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; background: #f1f5f9; }
+        .task-row { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .task-row:last-child { border-bottom: none; }
+        .task-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
     </style>
 </head>
 <body>
@@ -55,14 +53,14 @@
         <div style="display:flex; align-items:center; gap:12px;">
             <div class="avatar" id="u-av">?</div>
             <div>
-                <p style="font-size:10px; color:#64748b; font-weight:800;">ELITE MEMBER</p>
-                <p id="u-nm" style="font-weight:800; font-size:16px;">Loading...</p>
+                <p style="font-size:10px; color:#64748b; font-weight:800;">ELITE CLUB</p>
+                <p id="u-nm" style="font-weight:800; font-size:16px;">User</p>
             </div>
         </div>
         <div class="bal-chip"><i class="fas fa-coins"></i> <span id="u-bl">0</span> EP</div>
     </header>
 
-    <div class="ticker"><div class="ticker-m" id="news">🚀 Watch Ads, Spin the Wheel, and Earn Real Rewards! 🚀</div></div>
+    <div class="ticker"><div class="ticker-m" id="news">🚀 Claim your daily reward and watch ads for extra EP! 🚀</div></div>
 
     <main id="view">
         <div id="home" class="tab active">
@@ -71,10 +69,39 @@
                 <p id="b-timer" style="margin:10px 0 20px; font-size:13px; opacity:0.9;">Claim 25 EP Daily!</p>
                 <button class="btn" id="clm-btn" onclick="claimWithAd()">CLAIM NOW</button>
             </div>
+            
+            <h4 style="margin-bottom:15px; color:#64748b;">Ads Tasks</h4>
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div><b>Watch & Earn</b><br><small style="color:#10b981;">+10 EP Coin</small></div>
-                    <button class="btn" style="width:auto; padding:10px 22px; background:var(--p); color:#fff;" onclick="doAd(10)">WATCH AD</button>
+                    <div><b>Video Reward</b><br><small style="color:#10b981;">+10 EP Coin</small></div>
+                    <button class="btn" style="width:auto; padding:10px 22px; background:var(--p); color:#fff;" onclick="doAd(10)">WATCH</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tasks" class="tab">
+            <h3 style="margin-bottom:15px;">Social Tasks</h3>
+            <div class="card">
+                <div class="task-row">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div class="task-icon" style="background:#e0f2fe; color:#0ea5e9;"><i class="fab fa-telegram-plane"></i></div>
+                        <div><b>Join Telegram</b><br><small>+50 EP</small></div>
+                    </div>
+                    <button class="btn" id="t-tg" style="width:auto; padding:8px 15px; font-size:12px;" onclick="doTask('tg', 'https://t.me/your_channel', 50)">JOIN</button>
+                </div>
+                <div class="task-row">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div class="task-icon" style="background:#fee2e2; color:#ef4444;"><i class="fab fa-youtube"></i></div>
+                        <div><b>Subscribe YT</b><br><small>+50 EP</small></div>
+                    </div>
+                    <button class="btn" id="t-yt" style="width:auto; padding:8px 15px; font-size:12px;" onclick="doTask('yt', 'https://youtube.com/@your_channel', 50)">SUB</button>
+                </div>
+                <div class="task-row">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div class="task-icon" style="background:#e0e7ff; color:#4f46e5;"><i class="fab fa-facebook-f"></i></div>
+                        <div><b>Follow Facebook</b><br><small>+50 EP</small></div>
+                    </div>
+                    <button class="btn" id="t-fb" style="width:auto; padding:8px 15px; font-size:12px;" onclick="doTask('fb', 'https://facebook.com/your_page', 50)">FOLLOW</button>
                 </div>
             </div>
         </div>
@@ -84,44 +111,36 @@
                 <h3>Lucky Wheel</h3>
                 <p id="s-rem" style="font-size:12px; color:#64748b; margin:8px 0;">Spins left: 5/5</p>
                 <div id="wheel" style="width:170px; height:170px; border:8px solid #fff; border-radius:50%; margin:20px auto; background: conic-gradient(#6366f1 0 90deg, #ec4899 90deg 180deg, #6366f1 180deg 270deg, #ec4899 270deg 360deg); transition: 4s cubic-bezier(0.1, 0, 0.1, 1); box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></div>
-                <button class="btn-grad" id="spn-btn" onclick="spinWithAd()">SPIN (ADS)</button>
+                <button class="btn-grad" id="spn-btn" onclick="spinWithAd()">SPIN & EARN</button>
+            </div>
+        </div>
+
+        <div id="refer" class="tab">
+            <div class="card" style="text-align:center; padding:30px 10px;">
+                <i class="fas fa-user-friends fa-4x" style="color:var(--s); margin-bottom:15px;"></i>
+                <h2>Invite Friends</h2>
+                <p style="font-size:13px; color:#64748b; margin:10px 0 20px;">Get +50 EP for every user who joins!</p>
+                <button class="btn-grad" onclick="doRefer()">COPY INVITE LINK</button>
             </div>
         </div>
 
         <div id="wallet" class="tab">
-            <h3>Withdrawal</h3>
+            <h3>Withdraw</h3>
             <div class="card">
-                <input type="number" id="w-a" class="inp" placeholder="Amount (Min 1000)">
-                <input type="text" id="w-n" class="inp" placeholder="Nagad/Bkash Number">
-                <button class="btn-grad" style="background:#10b981;" onclick="withdrawWithAd()">WITHDRAW (ADS)</button>
+                <input type="number" id="w-a" style="width:100%; padding:14px; border-radius:12px; border:1px solid #eee; margin-bottom:10px;" placeholder="Amount (Min 1000)">
+                <input type="text" id="w-n" style="width:100%; padding:14px; border-radius:12px; border:1px solid #eee; margin-bottom:10px;" placeholder="Bkash/Nagad Number">
+                <button class="btn-grad" style="background:#10b981;" onclick="withdrawWithAd()">CASH OUT</button>
             </div>
-            <h4 style="margin-bottom:10px;">Recent History</h4>
             <div id="h-list" style="font-size:12px;"></div>
-        </div>
-
-        <div id="profile" class="tab">
-            <div class="card" style="text-align:center;">
-                <div class="avatar" id="p-av" style="width:80px; height:80px; margin:0 auto 15px; font-size:28px;">?</div>
-                <h2 id="p-nm">User</h2>
-                <div style="text-align:left; margin-top:20px;">
-                    <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:800;">
-                        <span>LVL <span id="p-lv">1</span></span> <span id="p-xp">0/100 XP</span>
-                    </div>
-                    <div class="xp-bg"><div id="xp-f" class="xp-f"></div></div>
-                </div>
-            </div>
-            <div class="card">
-                <input type="text" id="p-c" class="inp" placeholder="Promo Code">
-                <button class="btn" style="background:var(--p); color:#fff;" onclick="doPromo()">APPLY CODE</button>
-            </div>
         </div>
     </main>
 
     <nav class="nav">
         <a href="javascript:void(0)" class="n-link active" onclick="tab('home',this)"><i class="fas fa-home"></i>Home</a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('play',this)"><i class="fas fa-gamepad"></i>Play</a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('tasks',this)"><i class="fas fa-tasks"></i>Tasks</a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('play',this)"><i class="fas fa-gamepad"></i>Spin</a>
+        <a href="javascript:void(0)" class="n-link" onclick="tab('refer',this)"><i class="fas fa-users"></i>Refer</a>
         <a href="javascript:void(0)" class="n-link" onclick="tab('wallet',this)"><i class="fas fa-wallet"></i>Wallet</a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('profile',this)"><i class="fas fa-user-circle"></i>User</a>
     </nav>
 
     <script>
@@ -132,97 +151,103 @@
 
         function start() {
             db.ref('users/'+uid).on('value', s => {
-                uData = s.val() || {balance:0, xp:0, lastBonus:0, spins:5, spinTime:0};
+                uData = s.val() || {balance:0, xp:0, lastBonus:0, spins:5, spinTime:0, tasks:{}};
                 syncUI();
             });
             db.ref('admin/news').on('value', s => { if(s.val()) document.getElementById('news').innerText = s.val(); });
             loadTx();
+            checkReferral();
         }
 
         function syncUI() {
             document.getElementById('u-bl').innerText = uData.balance;
             document.getElementById('u-nm').innerText = fname;
-            document.getElementById('p-nm').innerText = fname;
             document.getElementById('u-av').innerText = fname[0];
-            document.getElementById('p-av').innerText = fname[0];
-
-            const lvl = Math.floor((uData.xp||0)/100)+1; const xp = (uData.xp||0)%100;
-            document.getElementById('p-lv').innerText = lvl;
-            document.getElementById('p-xp').innerText = xp + "/100 XP";
-            document.getElementById('xp-f').style.width = xp + "%";
-
-            const now = Date.now();
-            if (now - (uData.spinTime || 0) > 3600000) {
-                db.ref('users/'+uid).update({spins: 5, spinTime: now});
-            }
-            document.getElementById('s-rem').innerText = "Spins left: " + uData.spins + "/5 (Hourly)";
-            document.getElementById('spn-btn').disabled = (uData.spins <= 0);
             
-            const bDiff = now - (uData.lastBonus || 0);
-            document.getElementById('clm-btn').disabled = bDiff < 86400000;
+            const now = Date.now();
+            if (now - (uData.spinTime || 0) > 3600000) db.ref('users/'+uid).update({spins:5, spinTime:now});
+            document.getElementById('s-rem').innerText = "Spins left: " + (uData.spins||0) + "/5";
+            document.getElementById('spn-btn').disabled = (uData.spins <= 0);
+            document.getElementById('clm-btn').disabled = (now - (uData.lastBonus || 0)) < 86400000;
+            
+            if(uData.tasks){
+                if(uData.tasks.tg) document.getElementById('t-tg').disabled = true;
+                if(uData.tasks.yt) document.getElementById('t-yt').disabled = true;
+                if(uData.tasks.fb) document.getElementById('t-fb').disabled = true;
+            }
         }
 
-        function showAdThen(callback) {
+        function showAd(callback) {
             if(typeof show_10527731 === 'function') {
                 show_10527731().then(() => { callback(); }).catch(() => { callback(); });
             } else { callback(); }
         }
 
         function claimWithAd() {
-            showAdThen(() => {
-                db.ref('users/'+uid).transaction(c => { if(c){ c.balance+=25; c.xp+=15; c.lastBonus=Date.now(); } return c; });
-                tg.showAlert("Daily Bonus Claimed!");
+            showAd(() => {
+                db.ref('users/'+uid).transaction(c => { if(c){ c.balance+=25; c.lastBonus=Date.now(); } return c; });
+                tg.showAlert("Daily Bonus Received!");
             });
         }
 
         function spinWithAd() {
-            if (uData.spins <= 0) return tg.showAlert("No spins left!");
-            showAdThen(() => {
+            if (uData.spins <= 0) return;
+            showAd(() => {
                 const w = document.getElementById('wheel'); const deg = 3600 + Math.floor(Math.random()*3600);
                 w.style.transform = "rotate("+deg+"deg)";
                 setTimeout(() => {
                     const win = [5,10,20,50][Math.floor(Math.random()*4)];
-                    db.ref('users/'+uid).update({ balance: (uData.balance||0)+win, xp: (uData.xp||0)+5, spins: uData.spins - 1 });
-                    tg.showAlert("Won "+win+" EP!");
+                    db.ref('users/'+uid).update({ balance: (uData.balance||0)+win, spins: uData.spins - 1 });
+                    tg.showAlert("You won "+win+" EP!");
                 }, 4000);
             });
         }
 
-        function doAd(a) { 
-            showAdThen(() => {
-                db.ref('users/'+uid).transaction(c => { if(c){ c.balance+=a; c.xp+=5; } return c; });
-            });
+        function doAd(a) { showAd(() => { db.ref('users/'+uid+'/balance').transaction(b => (b||0)+a); tg.showAlert("Reward Added!"); }); }
+
+        function doTask(taskId, link, reward) {
+            tg.openLink(link);
+            setTimeout(() => {
+                db.ref('users/'+uid+'/tasks/'+taskId).set(true);
+                db.ref('users/'+uid+'/balance').transaction(b => (b||0) + reward);
+                tg.showAlert("Task Verified! +"+reward+" EP");
+            }, 3000);
         }
 
         function withdrawWithAd() {
             const a = parseInt(document.getElementById('w-a').value); const n = document.getElementById('w-n').value;
             if(!a || a<1000 || !n) return tg.showAlert("Min 1000 EP!");
             if(uData.balance < a) return tg.showAlert("Low balance!");
-            
-            showAdThen(() => {
-                db.ref('payouts/'+uid+'/'+Date.now()).set({amount:a, method:n, status:'pending', date:new Date().toLocaleDateString()});
-                db.ref('users/'+uid).update({balance:uData.balance-a});
+            showAd(() => {
+                db.ref('payouts/'+uid+'/'+Date.now()).set({amount:a, method:n, status:'pending'});
+                db.ref('users/'+uid+'/balance').set(uData.balance - a);
                 tg.showAlert("Withdrawal Requested!");
             });
+        }
+
+        function doRefer() {
+            const link = "https://t.me/extrapulse_bot/app?startapp=" + uid;
+            tg.openTelegramLink("https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=Join Extra Pulse and earn EP Coins!");
+        }
+
+        function checkReferral() {
+            const refBy = new URLSearchParams(window.location.search).get('tgWebAppStartParam');
+            if (refBy && refBy !== uid) {
+                db.ref('users/'+uid+'/referredBy').once('value', s => {
+                    if(!s.exists()) {
+                        db.ref('users/'+refBy+'/balance').transaction(b => (b||0) + 50);
+                        db.ref('users/'+uid+'/referredBy').set(refBy);
+                    }
+                });
+            }
         }
 
         function loadTx() {
             db.ref('payouts/'+uid).on('value', s => {
                 let h = ""; s.forEach(p => { 
-                    const d = p.val();
-                    h = '<div class="card" style="padding:12px; margin-bottom:10px; display:flex; justify-content:space-between;"><span>'+d.amount+' EP</span><span class="status-badge">'+d.status.toUpperCase()+'</span></div>' + h;
+                    h = '<div style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:space-between;"><span>'+p.val().amount+' EP</span><span>'+p.val().status+'</span></div>' + h;
                 });
-                document.getElementById('h-list').innerHTML = h || "No history found.";
-            });
-        }
-
-        function doPromo() {
-            const c = document.getElementById('p-c').value;
-            db.ref('admin/promos/'+c).once('value', s => {
-                if(s.exists()){
-                    db.ref('users/'+uid).transaction(u => { if(u) u.balance+=s.val(); return u; });
-                    tg.showAlert("Promo Applied!");
-                } else tg.showAlert("Invalid!");
+                document.getElementById('h-list').innerHTML = h || "No history.";
             });
         }
 
