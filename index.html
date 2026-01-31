@@ -1,316 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="EN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Extra Pulse</title>
+    <title>ELITE EARN PRO - COMPLETE</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script id="ad-script" src="https://libtl.com/sdk.js" data-zone="10546022" data-sdk="show_10546022"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    
-    <script id="ad-script" src="https://libtl.com/sdk.js" data-zone="10527731" data-sdk="show_10527731"></script>
 
     <style>
         :root { --p: #6366f1; --s: #f43f5e; --acc: #fbbf24; --bg: #f8fafc; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: #f0f4f8; color: #1e293b; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; font-weight: 800; }
+        body { background: var(--bg); color: #1e293b; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        
         .header { padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; background: #fff; border-bottom: 1px solid #e2e8f0; }
-        .u-pic { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--p); background: #f1f5f9; }
-        .bal-chip { background: linear-gradient(135deg, #fbbf24, #f59e0b); padding: 8px 15px; border-radius: 20px; color: #fff; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 6px; }
-        #view { flex: 1; overflow-y: auto; padding: 15px 20px 140px; scroll-behavior: smooth; }
-        .tab { display: none; } .tab.active { display: block; animation: fadeInUp 0.3s ease-out; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .card { background: #fff; border-radius: 24px; padding: 22px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid rgba(255,255,255,0.8); }
-        .btn-grad { background: linear-gradient(90deg, var(--p), #818cf8); color: #fff; border: none; padding: 14px; border-radius: 16px; width: 100%; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.2s; position: relative; text-transform: uppercase; }
-        .btn-grad:disabled { opacity: 0.6; cursor: not-allowed; }
-        .nav { position: fixed; bottom: 15px; left: 12px; right: 12px; background: #1e293b; border-radius: 20px; display: flex; padding: 8px 4px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); z-index: 1000; }
-        .n-link { flex: 1; text-align: center; color: #94a3b8; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 3px; }
-        .n-link i { font-size: 18px; }
-        .n-link span { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; }
-        .n-link.active { color: #fff; } .n-link.active i { color: var(--acc); }
-        .promo-input { background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; width: 100%; font-weight: 700; margin-bottom: 12px; outline: none; }
-        .ref-box { background: #f1f5f9; border-radius: 16px; padding: 15px; margin-top: 10px; display: flex; align-items: center; justify-content: space-between; border: 1px dashed var(--p); }
-        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
-        .status-badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
-        .pending { background: #fff7ed; color: #ea580c; } .success { background: #f0fdf4; color: #16a34a; } .rejected { background: #fef2f2; color: #dc2626; }
-        .task-icon { width: 40px; height: 40px; border-radius: 10px; background: #f1f5f9; object-fit: cover; }
+        .u-pic { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--p); }
+        .bal-chip { background: linear-gradient(135deg, #fbbf24, #f59e0b); padding: 8px 15px; border-radius: 20px; color: #fff; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+
+        #view { flex: 1; overflow-y: auto; padding: 15px 20px 100px; }
+        .tab { display: none; } .tab.active { display: block; animation: fadeInUp 0.4s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; } }
+
+        .card-main { background: #fff; border-radius: 24px; padding: 22px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
+        .grid-tasks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .task-box { background: #fff; border-radius: 18px; padding: 20px 10px; text-align: center; border: 1px solid #e2e8f0; cursor: pointer; transition: 0.2s; }
+        .task-box i { font-size: 24px; color: var(--p); margin-bottom: 8px; display: block; }
+        .task-box:active { transform: scale(0.96); }
+
+        .btn-action { background: var(--p); color: #fff; border: none; padding: 16px; border-radius: 16px; width: 100%; font-size: 13px; cursor: pointer; margin-top: 10px; }
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #e2e8f0; display: flex; padding: 10px 5px 25px; justify-content: space-around; }
+        .nav-item { text-align: center; color: #94a3b8; text-decoration: none; font-size: 10px; }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
+        .nav-item.active { color: var(--p); }
+
+        #timer-display { background: #fff1f2; color: var(--s); padding: 10px; border-radius: 10px; margin-top: 10px; display: none; }
+        .ref-box { background: #f1f5f9; padding: 15px; border-radius: 12px; border: 1px dashed #cbd5e1; font-size: 12px; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <div style="display:flex; align-items:center; gap:12px;">
-            <img src="" id="u-pic" class="u-pic">
-            <div><p id="u-nm" style="font-weight:800; font-size:16px;">LOADING...</p></div>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <img src="" id="top-pic" class="u-pic">
+            <b id="top-name">USER</b>
         </div>
-        <div class="bal-chip"><i class="fas fa-coins"></i> <span id="u-bl">0</span></div>
+        <div class="bal-chip"><i class="fas fa-coins"></i> <span id="u-bal">0</span></div>
     </header>
 
     <main id="view">
         <div id="home" class="tab active">
-            <div class="card" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff;">
-                <h3 style="text-transform: uppercase;"><i class="fas fa-gift"></i> DAILY REWARD</h3>
-                <button class="btn-grad" id="clm-btn" style="background: #fff; color: #6366f1; margin-top:15px;" onclick="claimDaily()">CLAIM NOW</button>
+            <div class="card-main" style="background: linear-gradient(135deg, #6366f1, #a855f7); color:#fff; border:none;">
+                <h3>DAILY BONUS</h3>
+                <p style="font-size:11px; margin:5px 0 15px; opacity:0.9;">CLAIM YOUR DAILY REWARD NOW!</p>
+                <button class="btn-action" style="background:#fff; color:var(--p);" onclick="claimDaily()">CLAIM BONUS</button>
             </div>
-            <div class="card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <i class="fas fa-play-circle" style="font-size:30px; color:var(--s);"></i><b style="text-transform: uppercase;">WATCH ADS</b>
-                    </div>
-                    <button class="btn-grad" id="ad-btn" style="width:auto; padding:10px 20px;" onclick="doAd()">WATCH</button>
-                </div>
-            </div>
-            <div class="card">
-                <p style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">Copy Refer Link</p>
-                <div class="ref-box">
-                    <code id="ref-link" style="font-size:10px; color:var(--p); font-weight: 700;">Loading...</code>
-                    <button onclick="copyRef()" style="background:var(--p); color:#fff; border:none; padding:6px 12px; border-radius:10px; font-size:10px; font-weight:800;">COPY</button>
-                </div>
-                <button style="background:#10b981; color:#fff; border:none; padding:12px; border-radius:12px; width:100%; font-weight:800; font-size:12px; margin-top:10px; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="shareInvite()">
-                    <i class="fas fa-user-plus"></i> INVITE FRIENDS
-                </button>
+
+            <div class="grid-tasks">
+                <div class="task-box" onclick="tab('sads', 'n-sads')"><i class="fas fa-play-circle"></i><b>S-ADS</b><br><small>+10 COINS</small></div>
+                <div class="task-box" onclick="tab('web', 'n-web')"><i class="fas fa-globe"></i><b>WEB-TASK</b><br><small>+50 COINS</small></div>
+                <div class="task-box" onclick="tab('refer', 'n-refer')"><i class="fas fa-users"></i><b>REFER</b><br><small>EARN MORE</small></div>
+                <div class="task-box" onclick="tab('wallet', 'n-wallet')"><i class="fas fa-wallet"></i><b>WALLET</b><br><small>CASHOUT</small></div>
             </div>
         </div>
 
-        <div id="tasks" class="tab"><h3 style="margin-bottom:20px; text-transform: uppercase;">SOCIAL TASKS</h3><div id="dynamic-tasks"></div></div>
-        
-        <div id="leaderboard" class="tab"><h3 style="margin-bottom:20px; text-transform: uppercase;">TOP HUNTERS 🏆</h3><div id="rank-list" class="card" style="padding:0;"></div></div>
-        
-        <div id="play" class="tab">
-            <div class="card" style="text-align:center;">
-                <h3 style="text-transform: uppercase;">LUCKY WHEEL</h3>
-                <p id="s-rem" style="font-weight:800; margin:10px 0; color:var(--p);">SPINS: 0/5</p>
-                <div id="wheel" style="width:180px; height:180px; border:8px solid #1e293b; border-radius:50%; margin:15px auto; background: conic-gradient(#6366f1 0 90deg, #f43f5e 90deg 180deg, #6366f1 180deg 270deg, #f43f5e 270deg 360deg); transition: 4s transform cubic-bezier(0.15, 0, 0.15, 1);"></div>
-                <button class="btn-grad" id="spn-btn" onclick="spinWheel()">SPIN NOW</button>
+        <div id="sads" class="tab">
+            <div class="card-main">
+                <h3>WATCH & EARN</h3>
+                <p style="font-size:12px; color:#64748b; margin-bottom:15px;">WATCH ADS TO EARN 10 COINS EVERY TIME.</p>
+                <button class="btn-action" onclick="runSAds()">WATCH AD</button>
+            </div>
+        </div>
+
+        <div id="web" class="tab">
+            <div class="card-main">
+                <h3>ARTICLE READING</h3>
+                <p style="font-size:12px; color:#64748b; margin-bottom:15px;">VISIT OUR PARTNER SITE FOR 60s TO GET 50 COINS.</p>
+                <div id="timer-display">PLEASE WAIT: <span id="w-timer">60</span>s</div>
+                <button class="btn-action" id="web-btn" onclick="runWebTask()">START TASK</button>
+            </div>
+        </div>
+
+        <div id="refer" class="tab">
+            <div class="card-main">
+                <h3>REFER & EARN</h3>
+                <p style="font-size:12px; color:#64748b; margin-bottom:15px;">INVITE FRIENDS AND GET 100 COINS ONCE THEY JOIN!</p>
+                <div class="ref-box" onclick="copyRef()">
+                    CLICK TO COPY YOUR LINK:<br>
+                    <b id="ref-link">---</b>
+                </div>
             </div>
         </div>
 
         <div id="wallet" class="tab">
-            <h3 style="margin-bottom:20px; text-transform: uppercase;">WALLET</h3>
-            <div class="card">
-                <p style="text-transform: uppercase; font-size: 11px; color:#64748b;">CURRENT BALANCE</p>
-                <h2 style="color:var(--p); margin-bottom:20px;"><span id="w-bal">0</span> EP</h2>
-                <input type="number" id="w-a" class="promo-input" placeholder="ENTER EP AMOUNT">
-                <select id="w-m" style="width:100%; padding:14px; border-radius:16px; margin-bottom:12px; font-weight:700; background:#f8fafc; border:1px solid #e2e8f0;"><option value="" disabled selected>SELECT METHOD</option><option value="bKash">BKASH</option><option value="Nagad">NAGAD</option><option value="Binance">BINANCE UID</option></select>
-                <input type="text" id="w-n" class="promo-input" placeholder="ACCOUNT NUMBER / ID">
-                <p id="min-wd-text" style="font-size:10px; color:var(--s); margin-bottom:10px; font-weight:700;"></p>
-                <button class="btn-grad" id="wd-btn" style="background:#10b981;" onclick="withdraw()">SUBMIT REQUEST</button>
-            </div>
-            <div class="card">
-                <h4 style="margin-bottom:15px; text-transform: uppercase; font-size: 13px;"><i class="fas fa-history"></i> Withdraw History</h4>
-                <div id="wd-history-list"></div>
-            </div>
-        </div>
-
-        <div id="profile" class="tab">
-            <div class="card" style="text-align:center;">
-                <img src="" id="p-img" style="width:90px; height:90px; border-radius:50%; margin-bottom:15px; border:3px solid var(--p);">
-                <h2 id="p-nm">USER</h2>
-                <div style="height: 8px;"></div>
-                <p id="p-date" style="font-size:12px; color:#64748b; text-transform: uppercase;"></p>
-                <div style="text-align: left; border-top: 1px solid #f1f5f9; padding-top: 20px; margin-top: 20px;">
-                    <b style="font-size: 12px; text-transform: uppercase;">Redeem Promo Code</b>
-                    <input type="text" id="promo-code" class="promo-input" style="margin-top:10px;" placeholder="ENTER CODE HERE">
-                    <button class="btn-grad" onclick="applyPromo()">REDEEM CODE</button>
-                </div>
-                <div style="margin-top: 25px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
-                    <button id="help-btn" style="background: #0088cc; color: #fff; border: none; padding: 14px; border-radius: 16px; width: 100%; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;"><i class="fab fa-telegram-plane"></i> HELP CENTER</button>
-                </div>
+            <div class="card-main">
+                <h3>WITHDRAW</h3>
+                <input type="number" id="w-amount" placeholder="MIN 500 COINS" style="width:100%; padding:15px; border-radius:12px; border:1px solid #ddd; margin-bottom:10px;">
+                <button class="btn-action" style="background:#10b981;" onclick="doWithdraw()">WITHDRAW NOW</button>
             </div>
         </div>
     </main>
 
-    <nav class="nav">
-        <a href="javascript:void(0)" class="n-link active" onclick="tab('home',this)"><i class="fas fa-home"></i><span>HOME</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('tasks',this)"><i class="fas fa-tasks"></i><span>TASKS</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('leaderboard',this)"><i class="fas fa-trophy"></i><span>RANK</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('play',this)"><i class="fas fa-gamepad"></i><span>SPIN</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('wallet',this)"><i class="fas fa-wallet"></i><span>WALLET</span></a>
-        <a href="javascript:void(0)" class="n-link" onclick="tab('profile',this)"><i class="fas fa-user-circle"></i><span>USER</span></a>
+    <nav class="nav-bar">
+        <a href="javascript:void(0)" class="nav-item active" onclick="tab('home',this)"><i class="fas fa-home"></i><span>HOME</span></a>
+        <a href="javascript:void(0)" id="n-sads" class="nav-item" onclick="tab('sads',this)"><i class="fas fa-play-circle"></i><span>ADS</span></a>
+        <a href="javascript:void(0)" id="n-web" class="nav-item" onclick="tab('web',this)"><i class="fas fa-globe"></i><span>WEB</span></a>
+        <a href="javascript:void(0)" id="n-refer" class="nav-item" onclick="tab('refer',this)"><i class="fas fa-users"></i><span>REFER</span></a>
+        <a href="javascript:void(0)" id="n-wallet" class="nav-item" onclick="tab('wallet',this)"><i class="fas fa-wallet"></i><span>WALLET</span></a>
     </nav>
 
     <script>
         const cfg = { apiKey: "AIzaSyAuS8RpixezmpBpIlB0YQURpG6s-0LEvKM", databaseURL: "https://extra-pulse-default-rtdb.firebaseio.com" };
-        firebase.initializeApp(cfg); const db = firebase.database(); 
+        firebase.initializeApp(cfg); const db = firebase.database(); 
         const tg = window.Telegram.WebApp; tg.expand();
         const user = tg.initDataUnsafe.user || { id: "000", first_name: "GUEST" };
-        const uid = user.id;
+        let uData = {};
 
-        let uData = {}; let sysSettings = { daily: 25, spin: 10, watch: 10, min_withdraw: 1000, help_link: "https://t.me/default" };
-        let isProcessing = false;
-
-        function start() {
-            // ADMIN SETTINGS SYNC
-            db.ref('settings').on('value', s => { 
-                if(s.exists()) {
-                    sysSettings = s.val();
-                    document.getElementById('min-wd-text').innerText = `MINIMUM WITHDRAW: ${sysSettings.min_withdraw} EP`;
-                    document.getElementById('help-btn').onclick = () => window.open(sysSettings.help_link, '_blank');
-                }
+        function startApp() {
+            db.ref('users/'+user.id).on('value', s => {
+                uData = s.val() || { balance: 0, last_bonus: 0 };
+                document.getElementById('u-bal').innerText = uData.balance;
+                document.getElementById('top-name').innerText = user.first_name;
+                document.getElementById('top-pic').src = user.photo_url || `https://ui-avatars.com/api/?name=${user.first_name}`;
+                document.getElementById('ref-link').innerText = "https://t.me/YOUR_BOT_USERNAME?start=" + user.id;
             });
 
-            // USER DATA SYNC
-            db.ref('users/'+uid).on('value', s => {
-                uData = s.val() || { balance: 0, name: user.first_name, photo: user.photo_url || `https://ui-avatars.com/api/?name=${user.first_name}&background=6366f1&color=fff&bold=true`, joined: new Date().toLocaleDateString(), spins: 5, tasks: {}, usedPromos: {} };
-                if(!s.exists()) db.ref('users/'+uid).set(uData);
-                syncUI();
-            });
+            // চেক রেফারেল (যদি নতুন ইউজার হয়)
+            const urlParams = new URLSearchParams(window.location.search);
+            const refBy = urlParams.get('start');
+            if(refBy && refBy !== user.id.toString()) {
+                db.ref('users/'+user.id).once('value', s => {
+                    if(!s.exists()) { // শুধু নতুন ইউজারের জন্য রেফার বোনাস
+                        db.ref('users/'+refBy+'/balance').transaction(b => (b||0) + 100);
+                    }
+                });
+            }
 
-            // ADMIN DYNAMIC TASKS SYNC
-            db.ref('tasks').on('value', s => {
-                let h = ""; 
-                if(s.exists()){
-                    s.forEach(t => {
-                        let task = t.val(); if(uData.tasks && uData.tasks[t.key]) return;
-                        h += `<div class="card"><div style="display:flex; justify-content:space-between; align-items:center;"><div style="display:flex; align-items:center; gap:12px;"><img src="${task.icon || 'https://cdn-icons-png.flaticon.com/512/743/743226.png'}" class="task-icon"><div><b style="text-transform:uppercase; font-size:13px;">${task.title}</b><br><small style="color:var(--p); font-weight:800;">+${task.reward} EP</small></div></div><button class="btn-grad" style="width:auto; padding:8px 15px;" onclick="doTask('${t.key}', '${task.url}', ${task.reward})">GO</button></div></div>`;
-                    });
-                }
-                document.getElementById('dynamic-tasks').innerHTML = h || "<p style='text-align:center; font-weight:700;'>NO TASKS AVAILABLE</p>";
-            });
-
-            loadRank(); loadHistory();
-            document.getElementById('ref-link').innerText = `https://t.me/extrapulse_bot?start=${uid}`;
+            // অটো ইন-অ্যাপ অ্যাড (প্রতি ৬০ সেকেন্ডে)
+            if (typeof show_10546022 === 'function') {
+                show_10546022({ type: 'inApp', inAppSettings: { frequency: 1, interval: 60, timeout: 5 } });
+            }
         }
 
-        function callAd(cb) {
-            if (typeof show_10527731 === 'function') {
-                show_10527731().then(() => { if(cb) cb(); }).catch(() => { if(cb) cb(); });
-            } else { if(cb) cb(); }
+        function runSAds() {
+            if (typeof show_10546022 === 'function') {
+                show_10546022().then(() => {
+                    db.ref('users/'+user.id+'/balance').transaction(b => (b||0) + 10);
+                    tg.showAlert("SUCCESS! +10 COINS.");
+                });
+            }
         }
 
-        function syncUI() {
-            document.getElementById('u-bl').innerText = uData.balance; document.getElementById('w-bal').innerText = uData.balance;
-            document.getElementById('u-nm').innerText = (uData.name || "GUEST").toUpperCase(); 
-            document.getElementById('p-nm').innerText = (uData.name || "GUEST").toUpperCase();
-            document.getElementById('u-pic').src = uData.photo; document.getElementById('p-img').src = uData.photo;
-            document.getElementById('p-date').innerText = "JOINED: " + (uData.joined || "");
-            document.getElementById('s-rem').innerText = `SPINS: ${uData.spins || 0}/5`;
-            document.getElementById('spn-btn').disabled = (uData.spins <= 0 || isProcessing);
-            const now = Date.now(); document.getElementById('clm-btn').disabled = (now - (uData.lastBonus || 0)) < 86400000;
+        function runWebTask() {
+            if (typeof show_10546022 === 'function') {
+                show_10546022().then(() => {
+                    tg.showAlert("AD DONE! NOW VISIT THE WEBSITE FOR 60s.");
+                    tg.openLink("https://www.google.com"); // এখানে আপনার ব্লগ লিঙ্ক দিন
+                    startTimer();
+                });
+            }
+        }
+
+        function startTimer() {
+            const btn = document.getElementById('web-btn');
+            const display = document.getElementById('timer-display');
+            const timer = document.getElementById('w-timer');
+            btn.disabled = true; display.style.display = 'block';
+            let left = 60;
+            const clock = setInterval(() => {
+                left--; timer.innerText = left;
+                if(left <= 0) {
+                    clearInterval(clock);
+                    db.ref('users/'+user.id+'/balance').transaction(b => (b||0) + 50);
+                    display.style.display = 'none'; btn.disabled = false;
+                    tg.showAlert("WEB TASK COMPLETED! +50 COINS.");
+                }
+            }, 1000);
         }
 
         function claimDaily() {
-            if(isProcessing) return; isProcessing = true;
-            callAd(() => {
-                db.ref('users/'+uid).transaction(c => {
-                    if(c && (Date.now() - (c.lastBonus || 0) > 86400000)) { c.balance += parseInt(sysSettings.daily); c.lastBonus = Date.now(); }
-                    return c;
-                }, () => { isProcessing = false; tg.showAlert("DAILY REWARD ADDED!"); });
-            });
-        }
-
-        function spinWheel() {
-            if(isProcessing || uData.spins <= 0) return;
-            isProcessing = true; document.getElementById('spn-btn').disabled = true;
-            callAd(() => {
-                const rotation = 3600 + Math.floor(Math.random() * 360);
-                const wheel = document.getElementById('wheel');
-                wheel.style.transform = `rotate(${rotation}deg)`;
-                setTimeout(() => {
-                    db.ref('users/'+uid).transaction(c => {
-                        if(c && c.spins > 0) { c.balance += parseInt(sysSettings.spin); c.spins -= 1; }
-                        return c;
-                    }, (err, comm) => {
-                        isProcessing = false;
-                        if(comm) tg.showAlert(`SUCCESS! ${sysSettings.spin} EP ADDED.`);
-                    });
-                }, 4100);
-            });
-        }
-
-        function doAd() {
-            if(isProcessing) return; isProcessing = true;
-            callAd(() => {
-                db.ref('users/'+uid+'/balance').transaction(b => (b || 0) + parseInt(sysSettings.watch), () => { 
-                    isProcessing = false; tg.showAlert("AD REWARD ADDED!"); 
+            const now = Date.now();
+            if(now - (uData.last_bonus || 0) < 86400000) return tg.showAlert("ALREADY CLAIMED! COME BACK TOMORROW.");
+            
+            if (typeof show_10546022 === 'function') {
+                show_10546022('pop').then(() => {
+                    db.ref('users/'+user.id).update({ balance: (uData.balance || 0) + 20, last_bonus: now });
+                    tg.showAlert("DAILY BONUS CLAIMED! +20 COINS.");
                 });
+            }
+        }
+
+        function doWithdraw() {
+            const amount = parseInt(document.getElementById('w-amount').value);
+            if(!amount || amount < 500) return tg.showAlert("MINIMUM 500 COINS!");
+            if(uData.balance < amount) return tg.showAlert("INSUFFICIENT BALANCE!");
+
+            show_10546022('pop').then(() => {
+                db.ref('withdrawals').push({ uid: user.id, amount, status: "PENDING", time: Date.now() });
+                db.ref('users/'+user.id+'/balance').transaction(b => (b||0) - amount);
+                tg.showAlert("WITHDRAWAL REQUEST SUBMITTED!");
             });
         }
 
-        function withdraw() {
-            const a = parseInt(document.getElementById('w-a').value); 
-            const m = document.getElementById('w-m').value; 
-            const n = document.getElementById('w-n').value;
-            if(!a || a < sysSettings.min_withdraw || !m || !n) return tg.showAlert("FILL ALL DETAILS!");
-            if(uData.balance < a) return tg.showAlert("LOW BALANCE!");
-            isProcessing = true;
-            callAd(() => {
-                db.ref('payouts').push({ amount: a, method: m, address: n, status: 'pending', name: uData.name, uid: uid, time: Date.now() });
-                db.ref('users/'+uid+'/balance').transaction(b => b - a, () => { 
-                    isProcessing = false; 
-                    tg.showAlert("SUCCESS! REQUEST SUBMITTED."); 
-                    document.getElementById('w-a').value=""; document.getElementById('w-n').value="";
-                });
-            });
-        }
-
-        function loadHistory() {
-            db.ref('payouts').orderByChild('uid').equalTo(uid).on('value', s => {
-                let h = ""; if(!s.exists()) h = "<p style='text-align:center; font-size:12px; color:#94a3b8;'>No history.</p>";
-                s.forEach(child => {
-                    const d = child.val();
-                    h = `<div class="history-item"><div><b>${d.amount} EP</b><br><small>${d.method}</small></div><span class="status-badge ${d.status}">${d.status}</span></div>` + h;
-                });
-                document.getElementById('wd-history-list').innerHTML = h;
-            });
+        function copyRef() {
+            const link = document.getElementById('ref-link').innerText;
+            navigator.clipboard.writeText(link);
+            tg.showAlert("REFERRAL LINK COPIED!");
         }
 
         function tab(id, el) {
-            if(id === 'wallet') callAd();
+            if (Math.random() > 0.6 && typeof show_10546022 === 'function') show_10546022();
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.n-link').forEach(n => n.classList.remove('active'));
-            el.classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            if(typeof el === 'string') document.getElementById(el).classList.add('active');
+            else el.classList.add('active');
         }
 
-        function loadRank() {
-            db.ref('users').orderByChild('balance').limitToLast(15).on('value', s => {
-                let list = []; s.forEach(u => list.push(u.val()));
-                let h = ""; list.reverse().forEach((u, i) => {
-                    let medal = (i === 0) ? "🥇" : (i === 1) ? "🥈" : (i === 2) ? "🥉" : (i + 1);
-                    h += `<div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #f1f5f9;"><div style="display:flex; align-items:center; gap:10px;"><span>${medal}</span><b>${(u.name || "GUEST").toUpperCase()}</b></div><span>${u.balance} EP</span></div>`;
-                });
-                document.getElementById('rank-list').innerHTML = h;
-            });
-        }
-
-        function doTask(tid, url, reward) {
-            window.open(url, '_blank');
-            tg.showConfirm("TASK COMPLETED?", (ok) => {
-                if(ok) {
-                    db.ref('users/'+uid).transaction(c => {
-                        if(c) { if(!c.tasks) c.tasks = {}; c.tasks[tid] = true; c.balance += reward; }
-                        return c;
-                    }, () => tg.showAlert("REWARD ADDED!"));
-                }
-            });
-        }
-
-        function applyPromo() {
-            const code = document.getElementById('promo-code').value.trim();
-            if(!code || (uData.usedPromos && uData.usedPromos[code])) return tg.showAlert("INVALID OR USED!");
-            db.ref('promocodes/'+code).once('value', s => {
-                const p = s.val(); if(p) {
-                    isProcessing = true;
-                    db.ref('users/'+uid).transaction(c => {
-                        if(c) { if(!c.usedPromos) c.usedPromos = {}; c.usedPromos[code] = true; c.balance += p.reward; }
-                        return c;
-                    }, () => { isProcessing = false; tg.showAlert("PROMO APPLIED!"); document.getElementById('promo-code').value=""; });
-                } else tg.showAlert("INVALID CODE!");
-            });
-        }
-
-        function copyRef() { navigator.clipboard.writeText(document.getElementById('ref-link').innerText); tg.showAlert("COPIED!"); }
-        function shareInvite() {
-            const txt = `Join and Earn! https://t.me/extrapulse_bot?start=${uid}`;
-            if (navigator.share) navigator.share({ text: txt });
-            else window.open(`https://t.me/share/url?url=${txt}`);
-        }
-        window.onload = start;
+        window.onload = startApp;
     </script>
 </body>
 </html>
